@@ -4,7 +4,7 @@ Load dynamic images from URL
 - Icons created with: [AndroidAssetStudio](https://romannurik.github.io/AndroidAssetStudio/index.html)
 
 ###Planned features
--Error responses on fail to load images
--swipe down to refresh
--95 North and South HOV direction status
--Add 95 North and South dynamic images
+- Error responses on fail to load images
+- Swipe down to refresh
+- 95 North and South HOV direction status
+- Add 95 North and South dynamic images
