@@ -8,3 +8,4 @@ Load dynamic images from URL
 - Swipe down to refresh
 - 95 North and South HOV direction status
 - Add 95 North and South dynamic images
+- Settings view to choose which dynamic images you want to show

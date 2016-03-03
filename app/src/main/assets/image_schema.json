@@ -1,0 +1,12 @@
+{
+  "images": [{
+    "url": "https://www.expresslanes.com/generate-dms-sign.php?tmsName=DMS-LH-E-0.1-1&direction=S&road=495&type=entry",
+    "description": "Southbound entry point at Lee Highway (Route 29)"
+  }, {
+    "url": "https://www.expresslanes.com/generate-dms-sign.php?tmsName=DMS-495-N-55.6&direction=N&road=495&type=entry",
+    "description": "Northbound entry point after the Springfield Interchange"
+  }, {
+    "url": "https://www.expresslanes.com/generate-dms-sign.php?tmsName=DMS-95-N-157.6-GP&direction=N&road=95&type=entry",
+    "description": "Northbound entry point from general purpose lanes near Opitz Boulevard"
+  }]
+}
