@@ -14,6 +14,8 @@ import android.widget.LinearLayout;
 import android.widget.LinearLayout.LayoutParams;
 import android.widget.TextView;
 
+import com.atreid.expresslanesimages.loaders.JSONLoader;
+import com.squareup.picasso.MemoryPolicy;
 import com.squareup.picasso.Picasso;
 
 import org.json.JSONArray;
@@ -27,6 +29,8 @@ import java.util.Date;
 
 public class MainActivity extends AppCompatActivity {
     private JSONArray images;
+    private Date date;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -34,7 +38,7 @@ public class MainActivity extends AppCompatActivity {
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         try {
-            JSONObject obj = new JSONObject(loadJSONFromAsset());
+            JSONObject obj =  (new JSONLoader("image_schema.json", this)).loadJSON();
             images = obj.getJSONArray("images");
             loadImages();
         } catch (JSONException e) {
@@ -48,7 +52,8 @@ public class MainActivity extends AppCompatActivity {
 
     private String getDateAndTime() {
         DateFormat df = DateFormat.getDateTimeInstance();
-        return df.format(new Date());
+        this.date = new Date();
+        return df.format(this.date);
     }
 
     public void loadImages() {
@@ -77,12 +82,16 @@ public class MainActivity extends AppCompatActivity {
                 description = image.getString("description");
                 // add image and text
                 loadTextAndImageIntoView(url, description);
-
-                // add separator
-                line = new View(this);
-                line.setLayoutParams(new LayoutParams(2, LayoutParams.MATCH_PARENT));
-                line.setBackgroundColor(Color.DKGRAY);
-                linearLayout.addView(line);
+                if (i < images.length() - 1) {
+                    // add separator
+                    line = new View(this);
+                    line.setLayoutParams(new LinearLayout.LayoutParams(
+                            LayoutParams.MATCH_PARENT,
+                            5
+                    ));
+                    line.setBackgroundColor(Color.parseColor("#B3B3B3"));
+                    linearLayout.addView(line);
+                }
             }
         } catch (JSONException e) {
             e.printStackTrace();
@@ -91,34 +100,21 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void loadTextAndImageIntoView(String url, String description) {
-        LayoutParams layoutParams = new LayoutParams(LinearLayout.LayoutParams.WRAP_CONTENT, LayoutParams.WRAP_CONTENT);
+        LayoutParams layoutParams = new LayoutParams(LayoutParams.MATCH_PARENT, LayoutParams.MATCH_PARENT);
         LinearLayout linearLayout = (LinearLayout) findViewById(R.id.mainLinearLayout);
         ImageView imageView = new ImageView(this);
+        imageView.setLayoutParams(layoutParams);
+        layoutParams = new LayoutParams(LinearLayout.LayoutParams.WRAP_CONTENT, LayoutParams.WRAP_CONTENT);
         TextView textView = new TextView(this);
         textView.setLayoutParams(layoutParams);
         textView.setText(description);
         Picasso.with(this)
-                .load(url)
-                .resize(203*5, 210*5)
+                .load(url) // + "&nocache=" + this.date.getTime())
+                .memoryPolicy(MemoryPolicy.NO_CACHE)
+                .resize(203 * 5, 210 * 5)
                 .into(imageView);
         linearLayout.addView(textView);
         linearLayout.addView(imageView);
-    }
-
-    public String loadJSONFromAsset() {
-        String json = null;
-        try {
-            InputStream is = getAssets().open("image_schema.json");
-            int size = is.available();
-            byte[] buffer = new byte[size];
-            is.read(buffer);
-            is.close();
-            json = new String(buffer, "UTF-8");
-        } catch (IOException ex) {
-            ex.printStackTrace();
-            return null;
-        }
-        return json;
     }
 
     @Override
