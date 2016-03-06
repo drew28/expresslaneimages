@@ -8,7 +8,15 @@
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:id="@+id/expressLanesStatus"/>
+        android:id="@+id/expressLanesStatus"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentBottom="true"
+        android:textSize="13dp"
+        android:textColor="#000000"
+        android:layout_marginTop="5dp"
+        android:layout_marginBottom="5dp"
+        android:layout_marginLeft="5dp"
+        android:layout_marginRight="5dp"/>
     <ListView
         android:id="@+id/listView1"
         android:layout_width="fill_parent"
