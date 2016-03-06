@@ -50,8 +50,9 @@ public class ExpressLaneImageAdapter extends ArrayAdapter<ExpressLaneImage> {
         holder.txtTitle.setText(expressLaneImage.title);
         Picasso.with(context)
                 .load(expressLaneImage.icon) // + "&nocache=" + this.date.getTime())
-                .memoryPolicy(MemoryPolicy.NO_CACHE)
-                        //.resize(203 * 5, 210 * 5)
+                //.memoryPolicy(MemoryPolicy.NO_CACHE)
+                .resize(203 * 3, 210 * 3)
+                .centerInside()
                 .into(holder.imgIcon);
         return row;
     }

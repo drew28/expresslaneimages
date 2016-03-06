@@ -12,4 +12,9 @@ public class ExpressLaneImage {
         this.icon = icon;
         this.title = title;
     }
+
+    @Override
+    public String toString() {
+        return this.title;
+    }
 }

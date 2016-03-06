@@ -3,7 +3,11 @@ package com.atreid.expresslanesimages;
 import android.app.Activity;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.AdapterView;
+import android.widget.LinearLayout;
 import android.widget.ListView;
+import android.widget.TextView;
+import android.widget.Toast;
 
 import com.atreid.expresslanesimages.loaders.JSONLoader;
 
@@ -22,6 +26,10 @@ public class MainActivity extends Activity {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        ExpressLanesStatusRetriever expressLanesStatus = new ExpressLanesStatusRetriever();
+        TextView statusTextView = (TextView)findViewById(R.id.expressLanesStatus);
+        statusTextView.setText("The 95 Express Lanes are currently: " + expressLanesStatus.toString());
+
         try {
             JSONObject obj =  (new JSONLoader(getString(R.string.json_images), this)).loadJSON();
             JSONObject eli;
@@ -44,6 +52,21 @@ public class MainActivity extends Activity {
             listView1.addHeaderView(header);
 
             listView1.setAdapter(adapter);
+            listView1.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+                @Override
+                public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                    //get layout of row
+//                    LinearLayout linearLayout = ((LinearLayout)view);
+//                    TextView textView = (TextView)linearLayout.findViewById(R.id.txtTitle);
+//                    String item = textView.getText().toString();
+
+                    //get row data
+                    if (position > 0) {
+                        String item = position + ". " + parent.getItemAtPosition(position);
+                        Toast.makeText(getBaseContext(), item, Toast.LENGTH_SHORT).show();
+                    }
+                }
+            });
         } catch (JSONException e) {
             e.printStackTrace();
         }
