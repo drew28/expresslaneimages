@@ -16,6 +16,8 @@ import org.json.JSONException;
 import org.json.JSONObject;
 import org.w3c.dom.Text;
 
+import java.util.ArrayList;
+
 
 public class MainActivity extends Activity {
 
@@ -33,19 +35,31 @@ public class MainActivity extends Activity {
         try {
             JSONObject obj =  (new JSONLoader(getString(R.string.json_images), this)).loadJSON();
             JSONObject eli;
-            String url;
-            String description;
+            String url, description, route, direction;
             images = obj.getJSONArray("images");
-            ExpressLaneImage[] expressLaneImageData = new ExpressLaneImage[images.length()];
+            ArrayList<ExpressLaneImage> expressLaneImageData =
+                    new ArrayList<ExpressLaneImage>();
+            //dynamic size
+            //ExpressLaneImage[] expressLaneImageData = new ExpressLaneImage[images.length()];
             for (int i = 0; i < images.length(); i++) {
                 // get first object from JSON
                 eli = images.getJSONObject(i);
                 url = eli.getString("url");
                 description = eli.getString("description");
-                expressLaneImageData[i] = new ExpressLaneImage(url, description);
+                route = eli.getString("route");
+                direction = eli.getString("direction");
+                //always add images from 495, only add relevant signs from 95
+                if (("495").equals(route)) {
+                    expressLaneImageData.add(new ExpressLaneImage(url, description, route, direction));
+                } else if (("95").equals(route)) {
+                    if (direction.equals(expressLanesStatus.getDirection())) {
+                        expressLaneImageData.add(new ExpressLaneImage(url, description, route, direction));
+                    }
+                }
             }
+
             ExpressLaneImageAdapter adapter = new ExpressLaneImageAdapter(this,
-                    R.layout.listview_item_row, expressLaneImageData);
+                    R.layout.listview_item_row, expressLaneImageData.toArray(new ExpressLaneImage[expressLaneImageData.size()]));
             listView1 = (ListView) findViewById(R.id.listView1);
 
             View header = (View) getLayoutInflater().inflate(R.layout.listview_header_row, null);

@@ -1,15 +1,43 @@
 {
   "images": [{
     "url": "https://www.expresslanes.com/generate-dms-sign.php?tmsName=DMS-LH-E-0.1-1&direction=S&road=495&type=entry",
-    "description": "Southbound entry point at Lee Highway (Route 29)"
+    "description": "Southbound entry point at Lee Highway (Route 29)",
+    "route": "495",
+    "direction": "south"
   }, {
     "url": "https://www.expresslanes.com/generate-dms-sign.php?tmsName=DMS-495-N-55.6&direction=N&road=495&type=entry",
-    "description": "Northbound entry point after the Springfield Interchange"
+    "description": "Northbound entry point after the Springfield Interchange",
+    "route": "495",
+    "direction": "north"
   }, {
     "url": "https://www.expresslanes.com/generate-dms-sign.php?tmsName=DMS-95-S-170.0-XP&direction=S&road=95&type=segment",
-    "description": "Southbound 95 Express Lanes before Franconia Road"
+    "description": "Southbound 95 Express Lanes before Franconia Road",
+    "route": "95",
+    "direction": "south"
+  }, {
+    "url": "https://www.expresslanes.com/generate-dms-sign.php?tmsName=DMS-95-S-162.0-GP&direction=S&road=95&type=entry",
+    "description": "Southbound entry point from general purpose lanes before Route 123",
+    "route": "95",
+    "direction": "south"
+  }, {
+    "url": "https://www.expresslanes.com/generate-dms-sign.php?tmsName=DMS-95-S-157.4-GP&direction=S&road=95&type=entry",
+    "description": "Southbound entry point from general purpose lanes before Opitz Boulevard",
+    "route": "95",
+    "direction": "south"
+  }, {
+    "url": "https://www.expresslanes.com/generate-dms-sign.php?tmsName=DMS-95-N-169.4-GP&direction=N&road=95&type=entry",
+    "description": "Northbound entry point from general purpose lanes before Franconia Road",
+    "route": "95",
+    "direction": "north"
   }, {
     "url": "https://www.expresslanes.com/generate-dms-sign.php?tmsName=DMS-95-N-157.6-GP&direction=N&road=95&type=entry",
-    "description": "Northbound entry point from general purpose lanes near Opitz Boulevard"
+    "description": "Northbound entry point from general purpose lanes near Opitz Boulevard",
+    "route": "95",
+    "direction": "north"
+  }, {
+    "url": "https://www.expresslanes.com/generate-dms-sign.php?tmsName=DMS-95-N-145.4-GP&direction=N&road=95&type=entry",
+    "description": "Northbound entry point from general purpose lanes before Telegraph Road",
+    "route": "95",
+    "direction": "north"
   }]
 }

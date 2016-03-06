@@ -61,5 +61,7 @@ public class ExpressLaneImageAdapter extends ArrayAdapter<ExpressLaneImage> {
     {
         ImageView imgIcon;
         TextView txtTitle;
+        String route;
+        String direction;
     }
 }
