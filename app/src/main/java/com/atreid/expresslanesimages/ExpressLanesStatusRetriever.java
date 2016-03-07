@@ -24,9 +24,11 @@ public class ExpressLanesStatusRetriever {
         Calendar cal = Calendar.getInstance();
         TimeZone timeZone = TimeZone.getTimeZone("America/New_York");
         int hourOffSet = timeZone.getOffset(new Date().getTime()) / 1000 / 60 / 60;
-        int hour = cal.get(Calendar.HOUR_OF_DAY) + hourOffSet; //24H
+        int hour = cal.HOUR_OF_DAY + hourOffSet; //24H
         int minute = cal.get(Calendar.MINUTE);
-
+        if (cal.PM == 1) {
+            hour += 12;
+        }
         int day = cal.get(Calendar.DAY_OF_WEEK);
         if (day == Calendar.SUNDAY) { //sunday
             //midnight to midnight
@@ -47,7 +49,7 @@ public class ExpressLanesStatusRetriever {
                 direction = NORTH;
             }
         } else {
-            if ((hour < 2 || (hour == 2 && minute < 30))) {
+            if ((hour < 2 || (hour == 2 && minute < 30))) { // 12-2:29
                 if (day != Calendar.MONDAY) {
                     //Midnight to 2:30 a.m.
                     status = "Closed, opens Northbound at 2:30AM";
@@ -56,11 +58,11 @@ public class ExpressLanesStatusRetriever {
                     status = "Open NorthBound, closes at 11AM";
                     direction = NORTH;
                 }
-            } else if ((hour == 2 && minute >= 30) || hour < 11) {
+            } else if ((hour == 2 && minute >= 30) || (hour >= 3 && hour < 11)) { //2:30-10:59
                 //2:30 a.m. to 11 a.m.
                 status = "Open Northbound, closes at 11AM";
                 direction = NORTH;
-            } else if (hour >= 11 && hour <= 13) {
+            } else if (hour >= 11 && hour <= 13) { //11am-1pm
                 //11 a.m. to 1 p.m.
                 status = "Closed, opens Northbound at 1PM";
                 direction = CLOSED;
