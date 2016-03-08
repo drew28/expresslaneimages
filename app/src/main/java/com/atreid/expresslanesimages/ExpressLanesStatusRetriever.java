@@ -2,7 +2,6 @@ package com.atreid.expresslanesimages;
 
 import java.util.Calendar;
 import java.util.Date;
-import java.util.TimeZone;
 
 /**
  * Created by atrei_000 on 3/6/2016.
@@ -22,11 +21,10 @@ public class ExpressLanesStatusRetriever {
     public ExpressLanesStatusRetriever() {
         status = "unable to retrieve status";
         Calendar cal = Calendar.getInstance();
-        TimeZone timeZone = TimeZone.getTimeZone("America/New_York");
-        int hourOffSet = timeZone.getOffset(new Date().getTime()) / 1000 / 60 / 60;
-        int hour = cal.HOUR_OF_DAY + hourOffSet; //24H
+        cal.setTime(new Date());
+        int hour = cal.get(Calendar.HOUR); //24H
         int minute = cal.get(Calendar.MINUTE);
-        if (cal.PM == 1) {
+        if (cal.get(Calendar.AM_PM) == cal.PM && hour < 12) {
             hour += 12;
         }
         int day = cal.get(Calendar.DAY_OF_WEEK);
