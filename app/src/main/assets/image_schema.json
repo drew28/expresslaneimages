@@ -10,6 +10,11 @@
     "route": "495",
     "direction": "north"
   }, {
+    "url": "https://www.expresslanes.com/generate-dms-sign.php?tmsName=DMS-395-S-2.4-HOV&direction=S&road=95&type=entry",
+    "description": "Southbound entry point from I-395 general purpose lanes",
+    "route": "95",
+    "direction": "south"
+  }, {
     "url": "https://www.expresslanes.com/generate-dms-sign.php?tmsName=DMS-95-S-170.0-XP&direction=S&road=95&type=segment",
     "description": "Southbound 95 Express Lanes before Franconia Road",
     "route": "95",
