@@ -1,7 +1,7 @@
 package com.atreid.expresslanesimages;
 
-import java.util.Calendar;
-import java.util.Date;
+import org.joda.time.DateTime;
+import org.joda.time.DateTimeConstants;
 
 /**
  * Created by atrei_000 on 3/6/2016.
@@ -20,19 +20,15 @@ public class ExpressLanesStatusRetriever {
 
     public ExpressLanesStatusRetriever() {
         status = "unable to retrieve status";
-        Calendar cal = Calendar.getInstance();
-        cal.setTime(new Date());
-        int hour = cal.get(Calendar.HOUR); //24H
-        int minute = cal.get(Calendar.MINUTE);
-        if (cal.get(Calendar.AM_PM) == cal.PM && hour < 12) {
-            hour += 12;
-        }
-        int day = cal.get(Calendar.DAY_OF_WEEK);
-        if (day == Calendar.SUNDAY) { //sunday
+        DateTime dt = new DateTime();
+        int hour = dt.getHourOfDay();
+        int minute = dt.getMinuteOfHour();
+        int day = dt.getDayOfWeek();
+        if (day == DateTimeConstants.SUNDAY) {
             //midnight to midnight
             status = "Open Northbound";
             direction = NORTH;
-        } else if (day == Calendar.SATURDAY) {
+        } else if (day == DateTimeConstants.SATURDAY) {
             //Midnight to 2 p.m.
             if (hour <= 14) {
                 status = "Open Southbound, closes at 2PM";
@@ -48,7 +44,7 @@ public class ExpressLanesStatusRetriever {
             }
         } else {
             if ((hour < 2 || (hour == 2 && minute < 30))) { // 12-2:29
-                if (day != Calendar.MONDAY) {
+                if (day != DateTimeConstants.MONDAY) {
                     //Midnight to 2:30 a.m.
                     status = "Closed, opens Northbound at 2:30AM";
                     direction = CLOSED;
@@ -65,7 +61,7 @@ public class ExpressLanesStatusRetriever {
                 status = "Closed, opens Northbound at 1PM";
                 direction = CLOSED;
             } else {
-                if (day != Calendar.FRIDAY) {
+                if (day != DateTimeConstants.FRIDAY) {
                     //1 p.m. to midnight
                     status = "Open Southbound, closes at Midnight";
                     direction = SOUTH;
