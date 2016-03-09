@@ -54,11 +54,11 @@ public class ExpressLanesStatusRetriever {
                 }
             } else if ((hour == 2 && minute >= 30) || (hour >= 3 && hour < 11)) { //2:30-10:59
                 //2:30 a.m. to 11 a.m.
-                status = "Open Southbound, closes at 11AM";
+                status = "Open Northbound, closes at 11AM";
                 direction = NORTH;
             } else if (hour >= 11 && hour <= 13) { //11am-1pm
                 //11 a.m. to 1 p.m.
-                status = "Closed, opens Northbound at 1PM";
+                status = "Closed, opens Southbound at 1PM";
                 direction = CLOSED;
             } else {
                 if (day != DateTimeConstants.FRIDAY) {
