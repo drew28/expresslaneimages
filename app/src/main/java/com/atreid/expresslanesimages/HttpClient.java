@@ -1,6 +1,6 @@
-package package com.atreid.expresslanesimages;
+package com.atreid.expresslanesimages;
 
-import package package com.atreid.expresslanesimages.HttpResponse;
+import package com.atreid.expresslanesimages.HttpResponse;
 
 import java.io.BufferedReader;
 import java.io.IOException;
