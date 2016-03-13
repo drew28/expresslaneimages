@@ -10,6 +10,10 @@
     <string name="section_format">Hello World from section: %1$d</string>
     <string name="show_prices">Show Prices</string>
     <string name="view_your_route">View Your Route</string>
+    <string name="option_choose_your_entry">Choose Your Entry</string>
+    <string name="option_choose_your_exit">Choose Your Exit</string>
+    <string name="disclaimer"><b>Please Note:</b> This price and duration are subject to change
+        within the next five minutes and may not be what you see on the road</string>
     <string-array name="directions">
         <item>Choose your Direction</item>
         <item>Northbound</item>

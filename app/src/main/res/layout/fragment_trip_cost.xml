@@ -7,7 +7,8 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="vertical"
-        tools:context=".fragments.TripCostFragment">
+        tools:context=".fragments.TripCostFragment"
+        android:textAlignment="textEnd">
 
         <Spinner
             android:id="@+id/direction"
@@ -28,11 +29,78 @@
             android:layout_height="wrap_content"
             android:spinnerMode="dialog" />
 
-        <Button
-            android:id="@+id/btnSubmit"
+        <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="@string/view_your_route"/>
+            android:id="@+id/response"
+            android:text=""
+            android:textAppearance="?android:attr/textAppearanceSmall"
+            android:paddingStart="14dip"
+            android:paddingEnd="15dip"/>
+
+        <LinearLayout
+            xmlns:tools="http://schemas.android.com/tools"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:weightSum="1">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/road495"
+                android:text="495"
+                android:textAppearance="?android:attr/textAppearanceLarge"
+                android:paddingStart="14dip"
+                android:paddingEnd="15dip"
+                android:textAlignment="textEnd" />
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:id="@+id/rate495"
+                android:textAppearance="?android:attr/textAppearanceMedium"
+                android:paddingStart="14dip"
+                android:paddingEnd="15dip"/>
+
+
+        </LinearLayout>
+        <LinearLayout
+            xmlns:tools="http://schemas.android.com/tools"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:weightSum="1">
+
+            <TextView
+                android:layout_width="67dp"
+                android:layout_height="wrap_content"
+                android:id="@+id/road95"
+                android:text="95"
+                android:textAppearance="?android:attr/textAppearanceLarge"
+                android:paddingStart="14dip"
+                android:paddingEnd="15dip"
+                android:textAlignment="textEnd" />
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:id="@+id/rate95"
+                android:textAppearance="?android:attr/textAppearanceMedium"
+                android:paddingStart="14dip"
+                android:paddingEnd="15dip"/>
+
+
+        </LinearLayout>
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/disclaimer"
+            android:text="@string/disclaimer"
+            android:textAppearance="?android:attr/textAppearanceSmall"
+            android:paddingStart="14dip"
+            android:paddingEnd="15dip"
+            android:layout_marginTop="5dp" />
 
     </LinearLayout>
 

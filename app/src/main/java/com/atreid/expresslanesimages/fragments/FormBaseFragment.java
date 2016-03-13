@@ -7,7 +7,6 @@ import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Spinner;
-import android.widget.Toast;
 
 import com.atreid.expresslanesimages.R;
 
@@ -36,14 +35,20 @@ public class FormBaseFragment extends Fragment {
 
     // TODO: Rename and change types of parameters
     protected JSONObject mEntry_exit;
+
     protected ArrayAdapter<String> northboundEntries;
     protected ArrayAdapter<String> southboundEntries;
+
     protected Map<String, String> entryLabelToCodeMap;
+    protected Map<String, JSONArray> exitIdToODSArrayMap;
     protected Map<String, JSONObject> exitLabelToExitObjectMap;
+
     protected Spinner direction;
     protected Spinner entry;
     protected Spinner exit;
+
     protected String directionSelected;
+    protected JSONObject entryObject;
 
     public FormBaseFragment() {
         // Required empty public constructor
@@ -68,15 +73,15 @@ public class FormBaseFragment extends Fragment {
     protected ArrayAdapter<String> getEntryAdapter(String direction) throws JSONException {
         JSONObject directionObject = mEntry_exit.getJSONObject(direction);
         JSONObject entries = directionObject.getJSONObject("entries");
-        JSONObject entryObject;
+        JSONObject entryObjectCursor;
         JSONArray entryCodes = entries.names();
         String label;
         List<String> list = new ArrayList<>();
         Log.d("entryCodes", entryCodes.toString());
-        list.add("Choose Your Entry");
+        list.add(getResources().getString(R.string.option_choose_your_entry));
         for (int i = 0; i < entryCodes.length(); i++) {
-            entryObject = entries.getJSONObject(entryCodes.get(i).toString());
-            label = entryObject.getString("label");
+            entryObjectCursor = entries.getJSONObject(entryCodes.get(i).toString());
+            label = entryObjectCursor.getString("label");
             list.add(label);
             entryLabelToCodeMap.put(direction + label, entryCodes.get(i).toString());
         }
@@ -92,15 +97,16 @@ public class FormBaseFragment extends Fragment {
         String exitCode;
         String label;
         List<String> list = new ArrayList<>();
-        list.add("Choose Your Exit");
+        list.add(getResources().getString(R.string.option_choose_your_exit));
+        exitIdToODSArrayMap = new HashMap<>();
         exitLabelToExitObjectMap = new HashMap<>();
         for (int i = 0; i < exitCodes.length(); i++) {
             exitCodeObject = (JSONObject)exitCodes.get(i);
             exitCode = exitCodeObject.getString("id");
-            Log.d("exitCode", exitCode);
             exitObject = exits.getJSONObject(exitCode);
             label = exitObject.getString("label");
             list.add(label);
+            exitIdToODSArrayMap.put(exitCode, exitCodeObject.getJSONArray("ods"));
             exitLabelToExitObjectMap.put(label, exitObject);
         }
         Log.d("exitLabels", list.toString());
@@ -134,15 +140,12 @@ public class FormBaseFragment extends Fragment {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
                 if (position != 0) {
-                    Toast.makeText(parent.getContext(),
-                            "OnItemSelectedListener : " + parent.getItemAtPosition(position).toString(),
-                            Toast.LENGTH_SHORT).show();
                     try {
                         Log.d("direction", directionSelected);
                         String selectedEntry = parent.getItemAtPosition(position).toString();
                         String entryCode = entryLabelToCodeMap.get(directionSelected + selectedEntry);
                         JSONObject directionObject = mEntry_exit.getJSONObject(directionSelected);
-                        JSONObject entryObject = directionObject.getJSONObject("entries").getJSONObject(entryCode);
+                        entryObject = directionObject.getJSONObject("entries").getJSONObject(entryCode);
                         JSONArray exitsFromEntry = entryObject.getJSONArray("exits");
                         ArrayAdapter<String> exitAdapter = getExitAdapter(directionSelected, exitsFromEntry);
                         exit.setAdapter(exitAdapter);
@@ -158,23 +161,6 @@ public class FormBaseFragment extends Fragment {
             }
         });
         exit = (Spinner)v.findViewById(R.id.exit);
-        exit.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
-            @Override
-            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                if (position != 0) {
-                    Toast.makeText(parent.getContext(),
-                            "OnItemSelectedListener : " + parent.getItemAtPosition(position).toString(),
-                            Toast.LENGTH_SHORT).show();
-
-                }
-            }
-
-            @Override
-            public void onNothingSelected(AdapterView<?> parent) {
-
-            }
-        });
-
     }
 }
 
