@@ -56,7 +56,7 @@ public class FormBaseFragment extends Fragment {
         if (getArguments() != null) {
             try {
                 mEntry_exit = new JSONObject(getArguments().getString(ARG_ENTRY_EXIT));
-                entryLabelToCodeMap = new HashMap<String, String>();
+                entryLabelToCodeMap = new HashMap<>();
                 northboundEntries = getEntryAdapter("Northbound");
                 southboundEntries = getEntryAdapter("Southbound");
             } catch (JSONException e) {
@@ -78,7 +78,7 @@ public class FormBaseFragment extends Fragment {
             entryObject = entries.getJSONObject(entryCodes.get(i).toString());
             label = entryObject.getString("label");
             list.add(label);
-            entryLabelToCodeMap.put(label, entryCodes.get(i).toString());
+            entryLabelToCodeMap.put(direction + label, entryCodes.get(i).toString());
         }
         Log.d("entryLabels", list.toString());
         return new ArrayAdapter<>(getContext(), select_dialog_item, list);
@@ -138,8 +138,9 @@ public class FormBaseFragment extends Fragment {
                             "OnItemSelectedListener : " + parent.getItemAtPosition(position).toString(),
                             Toast.LENGTH_SHORT).show();
                     try {
+                        Log.d("direction", directionSelected);
                         String selectedEntry = parent.getItemAtPosition(position).toString();
-                        String entryCode = entryLabelToCodeMap.get(selectedEntry);
+                        String entryCode = entryLabelToCodeMap.get(directionSelected + selectedEntry);
                         JSONObject directionObject = mEntry_exit.getJSONObject(directionSelected);
                         JSONObject entryObject = directionObject.getJSONObject("entries").getJSONObject(entryCode);
                         JSONArray exitsFromEntry = entryObject.getJSONArray("exits");
