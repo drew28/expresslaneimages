@@ -5,9 +5,14 @@
     <string name="action_clear">Clear</string>
     <string name="list_header">Dynamic Signs</string>
     <string name="json_images">image_schema.json</string>
+    <string name="json_entry_exit">entry_exit.json</string>
     <string name="title_activity_navigation">Express Lanes</string>
     <string name="section_format">Hello World from section: %1$d</string>
-
-    <!-- TODO: Remove or change this placeholder text -->
-    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="show_prices">Show Prices</string>
+    <string name="view_your_route">View Your Route</string>
+    <string-array name="directions">
+        <item>Choose your Direction</item>
+        <item>Northbound</item>
+        <item>Southbound</item>
+    </string-array>
 </resources>

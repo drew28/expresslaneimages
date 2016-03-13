@@ -1,29 +1,30 @@
 package com.atreid.expresslanesimages;
 
+import android.content.Context;
+import android.content.res.Resources;
 import android.net.Uri;
+import android.os.Bundle;
 import android.support.design.widget.TabLayout;
-import android.support.v7.app.AppCompatActivity;
-import android.support.v7.widget.Toolbar;
-
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.view.ViewPager;
-import android.os.Bundle;
-import android.view.LayoutInflater;
+import android.support.v7.app.AppCompatActivity;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.view.View;
-import android.view.ViewGroup;
 
-import android.widget.TextView;
-
+import com.atreid.expresslanesimages.fragments.DynamicSignsFragment;
+import com.atreid.expresslanesimages.fragments.HistoricRatesFragment;
+import com.atreid.expresslanesimages.fragments.TripCostFragment;
 import com.atreid.expresslanesimages.loaders.JSONLoader;
 
 import org.json.JSONException;
 import org.json.JSONObject;
 
-public class NavigationActivity extends AppCompatActivity implements DynamicSignsFragment.OnFragmentInteractionListener {
+public class NavigationActivity extends AppCompatActivity
+        implements DynamicSignsFragment.OnFragmentInteractionListener,
+        HistoricRatesFragment.OnFragmentInteractionListener,
+        TripCostFragment.OnFragmentInteractionListener {
 
     /**
      * The {@link android.support.v4.view.PagerAdapter} that will provide
@@ -93,66 +94,37 @@ public class NavigationActivity extends AppCompatActivity implements DynamicSign
     }
 
     /**
-     * A placeholder fragment containing a simple view.
-     */
-    public static class PlaceholderFragment extends Fragment {
-        /**
-         * The fragment argument representing the section number for this
-         * fragment.
-         */
-        private static final String ARG_SECTION_NUMBER = "section_number";
-
-        public PlaceholderFragment() {
-        }
-
-        /**
-         * Returns a new instance of this fragment for the given section
-         * number.
-         */
-        public static PlaceholderFragment newInstance(int sectionNumber) {
-            PlaceholderFragment fragment = new PlaceholderFragment();
-            Bundle args = new Bundle();
-            args.putInt(ARG_SECTION_NUMBER, sectionNumber);
-            fragment.setArguments(args);
-            return fragment;
-        }
-
-        @Override
-        public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                                 Bundle savedInstanceState) {
-            View rootView = inflater.inflate(R.layout.fragment_navigation, container, false);
-            TextView textView = (TextView) rootView.findViewById(R.id.section_label);
-            textView.setText(getString(R.string.section_format, getArguments().getInt(ARG_SECTION_NUMBER)));
-            return rootView;
-        }
-    }
-
-    /**
      * A {@link FragmentPagerAdapter} that returns a fragment corresponding to
      * one of the sections/tabs/pages.
      */
     public class SectionsPagerAdapter extends FragmentPagerAdapter {
-        private JSONObject obj;
+        private JSONObject image_schema;
+        private JSONObject entry_exit;
         private ExpressLanesStatusRetriever expressLanesStatus;
         public SectionsPagerAdapter(FragmentManager fm) throws JSONException {
             super(fm);
-            obj =  (new JSONLoader(getBaseContext().getResources().getString(R.string.json_images), getBaseContext())).loadJSON();
+            Context context = getBaseContext();
+            Resources resources = context.getResources();
+            image_schema = (new JSONLoader(resources.getString(R.string.json_images), context)).loadJSON();
+            entry_exit = (new JSONLoader(resources.getString(R.string.json_entry_exit), context)).loadJSON();
             expressLanesStatus = new ExpressLanesStatusRetriever();
         }
 
         @Override
         public Fragment getItem(int position) {
             // getItem is called to instantiate the fragment for the given page.
-            // Return a PlaceholderFragment (defined as a static inner class below).
             if (position == 0) {
                 try {
-                    return DynamicSignsFragment.newInstance(obj.getJSONArray("images"),
+                    return DynamicSignsFragment.newInstance(image_schema.getJSONArray("images"),
                             expressLanesStatus.getDirection(), expressLanesStatus.toString());
                 } catch (JSONException e) {
                     e.printStackTrace();
                 }
+            } else if (position == 1) {
+                return TripCostFragment.newInstance(entry_exit);
             }
-            return PlaceholderFragment.newInstance(position + 1);
+            return HistoricRatesFragment.newInstance(entry_exit);
+
         }
 
         @Override

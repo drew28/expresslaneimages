@@ -1,6 +1,6 @@
-package com.atreid.expresslanesimages;
+package com.atreid.expresslanesimages.loaders;
 
-import package com.atreid.expresslanesimages.HttpResponse;
+import android.util.Log;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -20,6 +20,8 @@ import java.util.Map;
  */
 public class HttpClient {
 
+    private static final String TAG = "HttpClient";
+
     /**
      * Make an HTTP request
      *
@@ -37,16 +39,17 @@ public class HttpClient {
         HttpURLConnection conn = null;
         BufferedReader reader = null;
         OutputStreamWriter writer = null;
+
         try {
-            log.info("Making HTTP " + method + " request...");
-            log.debug("URL=" + url);
+            Log.i(TAG, "Making HTTP " + method + " request...");
+            Log.d(TAG, "URL=" + url);
 
             // Create connection
             conn = (HttpURLConnection) new URL(url).openConnection();
             // Set method
             conn.setRequestMethod(method);
             // Set content type
-            conn.setRequestProperty(HttpRequestProperties.CONTENT_TYPE_HEADER, contentType);
+            conn.setRequestProperty("Content-Type", contentType);
 
             // Add request properties
             if (headers != null) {
@@ -69,7 +72,7 @@ public class HttpClient {
             int responseCode = conn.getResponseCode();
             String responseMessage = conn.getResponseMessage();
             String responseBody = null;
-            log.debug("HTTP request completed with responseCode=" + responseCode + ", and responseMessage=" + responseMessage);
+            Log.d(TAG, "HTTP request completed with responseCode=" + responseCode + ", and responseMessage=" + responseMessage);
 
             // Read response if request was successful
             if (responseCode == HttpURLConnection.HTTP_OK) {
@@ -86,13 +89,13 @@ public class HttpClient {
             return new HttpResponse(responseCode, responseMessage, responseBody);
         }
         finally {
-            log.debug("Cleaning up connection resources...");
+            Log.d(TAG, "Cleaning up connection resources...");
             if (writer != null) {
                 try {
                     writer.close();
                 }
                 catch (IOException e) {
-                    log.warn("IOException while cleaning up resources", e);
+                    Log.w(TAG, "IOException while cleaning up resources", e);
                 }
             }
             if (reader != null) {
@@ -100,7 +103,7 @@ public class HttpClient {
                     reader.close();
                 }
                 catch (IOException e) {
-                    log.warn("IOException while cleaning up resources", e);
+                    Log.w(TAG, "IOException while cleaning up resources", e);
                 }
             }
             if (conn != null) {

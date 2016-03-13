@@ -30,10 +30,10 @@ public class ExpressLanesStatusRetriever {
             direction = NORTH;
         } else if (day == DateTimeConstants.SATURDAY) {
             //Midnight to 2 p.m.
-            if (hour <= 14) {
+            if (hour < 14) {
                 status = "Open Southbound, closes at 2PM";
                 direction = SOUTH;
-            } else if (hour > 14 && hour < 16) {
+            } else if (hour >= 14 && hour < 16) {
                 //2 p.m. to 4 p.m.
                 status = "Closed, opens Northbound at 4PM";
                 direction = CLOSED;

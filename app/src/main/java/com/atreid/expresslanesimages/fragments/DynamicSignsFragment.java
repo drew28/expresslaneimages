@@ -1,4 +1,4 @@
-package com.atreid.expresslanesimages;
+package com.atreid.expresslanesimages.fragments;
 
 import android.content.Context;
 import android.net.Uri;
@@ -11,6 +11,10 @@ import android.widget.AdapterView;
 import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
+
+import com.atreid.expresslanesimages.ExpressLaneImage;
+import com.atreid.expresslanesimages.adapters.ExpressLaneImageAdapter;
+import com.atreid.expresslanesimages.R;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -54,7 +58,6 @@ public class DynamicSignsFragment extends Fragment {
      * @param direction Direction of the flow of traffic on 95 express lanes
      * @return A new instance of fragment DynamicSignsFragment.
      */
-    // TODO: Rename and change types and number of parameters
     public static DynamicSignsFragment newInstance(JSONArray images, String direction, String status) {
         DynamicSignsFragment fragment = new DynamicSignsFragment();
         Bundle args = new Bundle();
@@ -107,7 +110,8 @@ public class DynamicSignsFragment extends Fragment {
 
     public void onViewCreated(View v, Bundle savedInstanceState) {
         TextView statusTextView = (TextView)v.findViewById(R.id.expressLanesStatus);
-        statusTextView.setText("95 Express Lanes status: " + mStatus);
+        String status = "95 Express Lanes status: " + mStatus;
+        statusTextView.setText(status);
         ExpressLaneImageAdapter adapter = new ExpressLaneImageAdapter(getActivity(),
                 R.layout.listview_item_row, expressLaneImageData.toArray(new ExpressLaneImage[expressLaneImageData.size()]));
         ListView listView1 = (ListView) v.findViewById(R.id.listView1);

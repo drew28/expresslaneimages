@@ -1,4 +1,4 @@
-package com.atreid.expresslanesimages;
+package com.atreid.expresslanesimages.loaders;
 
 /**
  * @author midris

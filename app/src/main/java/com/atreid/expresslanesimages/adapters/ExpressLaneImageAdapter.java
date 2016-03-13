@@ -1,4 +1,4 @@
-package com.atreid.expresslanesimages;
+package com.atreid.expresslanesimages.adapters;
 
 import android.app.Activity;
 import android.content.Context;
@@ -9,6 +9,8 @@ import android.widget.ArrayAdapter;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.atreid.expresslanesimages.ExpressLaneImage;
+import com.atreid.expresslanesimages.R;
 import com.squareup.picasso.MemoryPolicy;
 import com.squareup.picasso.Picasso;
 
