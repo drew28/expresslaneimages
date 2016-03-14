@@ -84,7 +84,8 @@ public class TripCostFragment extends FormBaseFragment {
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
                 if (position != 0) {
                     String exitSelected = parent.getItemAtPosition(position).toString();
-                    JSONObject exitObject = exitLabelToExitObjectMap.get(exitSelected);
+                    exitObject = exitLabelToExitObjectMap.get(exitSelected);
+                    response.setText("");
                     try {
                         JSONArray odsArray = exitIdToODSArrayMap.get(exitObject.getString("id"));
                         String ods; // = odsArray.get(0).toString();
@@ -138,24 +139,6 @@ public class TripCostFragment extends FormBaseFragment {
         @Override
         protected void onPostExecute(String result) {
             try {
-                /*
-                {
-                    "ods":[1098,1092],
-                        "rates":[{
-                            "od":"1092",
-                            "rate":"3.25",
-                            "road":"495",
-                            "direction":"N",
-                            "duration":"11"
-                        },{
-                            "od":"1098",
-                            "rate":"4.85",
-                            "road":"95",
-                            "direction":"N",
-                            "duration":"23"
-                        }
-                    ]}
-                  */
                 JSONObject responseObject = new JSONObject(result);
                 JSONArray rates = responseObject.getJSONArray("rates");
                 JSONObject rateObject;

@@ -62,11 +62,13 @@
             android:layout_height="wrap_content"
             android:spinnerMode="dialog" />
 
-        <Button
-            android:id="@+id/btnSubmit"
+        <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="@string/show_prices"/>
+            android:textAppearance="?android:attr/textAppearanceMedium"
+            android:paddingStart="14dip"
+            android:paddingEnd="15dip"
+            android:id="@+id/response" />
 
     </LinearLayout>
 

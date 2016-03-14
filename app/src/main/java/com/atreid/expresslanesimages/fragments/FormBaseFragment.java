@@ -47,8 +47,9 @@ public class FormBaseFragment extends Fragment {
     protected Spinner entry;
     protected Spinner exit;
 
-    protected String directionSelected;
-    protected JSONObject entryObject;
+    protected static String directionSelected;
+    protected static JSONObject entryObject;
+    protected static JSONObject exitObject;
 
     public FormBaseFragment() {
         // Required empty public constructor
