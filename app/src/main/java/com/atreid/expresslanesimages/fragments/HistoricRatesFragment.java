@@ -1,5 +1,7 @@
 package com.atreid.expresslanesimages.fragments;
 
+import android.app.DatePickerDialog;
+import android.app.TimePickerDialog;
 import android.content.Context;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
@@ -10,19 +12,26 @@ import android.support.v4.app.Fragment;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.view.View.OnClickListener;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
+import android.widget.DatePicker;
 import android.widget.TextView;
+import android.widget.TimePicker;
 
 import com.atreid.expresslanesimages.R;
 import com.atreid.expresslanesimages.loaders.HttpClient;
 import com.atreid.expresslanesimages.loaders.HttpResponse;
 
+import org.joda.time.DateTime;
+import org.joda.time.format.DateTimeFormat;
+import org.joda.time.format.DateTimeFormatter;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.io.IOException;
+import java.net.URLEncoder;
 
 
 /**
@@ -33,7 +42,7 @@ import java.io.IOException;
  * Use the {@link HistoricRatesFragment#newInstance} factory method to
  * create an instance of this fragment.
  */
-public class HistoricRatesFragment extends FormBaseFragment {
+public class HistoricRatesFragment extends FormBaseFragment implements OnClickListener {
 
     private OnFragmentInteractionListener mListener;
 
@@ -42,6 +51,14 @@ public class HistoricRatesFragment extends FormBaseFragment {
     }
 
     private static TextView response;
+    private static TextView dateText;
+    private static TextView timeText;
+
+    private DatePickerDialog datePickerDialog;
+    private TimePickerDialog timePickerDialog;
+    private static DateTime dateTime;
+    private static DateTimeFormatter dateFormatter = DateTimeFormat.forPattern("MM/dd/yyyy");
+    private static DateTimeFormatter timeFormatter = DateTimeFormat.forPattern("h:mm a");
 
     /**
      * Use this factory method to create a new instance of
@@ -77,6 +94,40 @@ public class HistoricRatesFragment extends FormBaseFragment {
     public void onViewCreated(View v, Bundle savedInstanceState) {
         super.onViewCreated(v, savedInstanceState);
         response = (TextView)v.findViewById(R.id.response);
+        dateTime = new DateTime();
+        dateText = (TextView)v.findViewById(R.id.dateValue);
+        timeText = (TextView)v.findViewById(R.id.timeValue);
+        dateText.setText(dateFormatter.print(dateTime));
+        timeText.setText(timeFormatter.print(dateTime));
+
+        //setup date/timepicker dialog for date/time textview
+        dateText.setOnClickListener(this);
+        timeText.setOnClickListener(this);
+
+        datePickerDialog = new DatePickerDialog(getContext(), new DatePickerDialog.OnDateSetListener() {
+            @Override
+            public void onDateSet(DatePicker view, int year, int monthOfYear, int dayOfMonth) {
+                dateTime = dateTime
+                        .year().setCopy(year)
+                        .monthOfYear().setCopy(monthOfYear + 1)
+                        .dayOfMonth().setCopy(dayOfMonth);
+                dateText.setText(dateFormatter.print(dateTime));
+            }
+        }, dateTime.getYear(), dateTime.getMonthOfYear() - 1, dateTime.getDayOfMonth());
+        DateTime now = new DateTime();
+        DateTime thirtyDaysAgo = now.minusDays(30);
+        datePickerDialog.getDatePicker().setMinDate(thirtyDaysAgo.getMillis());
+        timePickerDialog = new TimePickerDialog(getContext(), new TimePickerDialog.OnTimeSetListener() {
+            @Override
+            public void onTimeSet(TimePicker view, int hourOfDay, int minute) {
+                dateTime = dateTime
+                        .hourOfDay().setCopy(hourOfDay)
+                        .minuteOfHour().setCopy(minute);
+                timeText.setText(timeFormatter.print(dateTime));
+            }
+        }, dateTime.getHourOfDay(), dateTime.getMinuteOfHour(), false);
+
+        //setup selected handler for spinner
         exit.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
@@ -115,17 +166,21 @@ public class HistoricRatesFragment extends FormBaseFragment {
         protected String doInBackground(String... url) {
             // params comes from the execute() call: params[0] is the url.
             try {
+                String dateValue = dateFormatter.print(dateTime) + " " + timeFormatter.print(dateTime);
+                String payload = new StringBuilder()
+                        .append("date=").append(URLEncoder.encode(dateValue, "UTF-8"))
+                        .append("&direction=").append(directionSelected)
+                        .append("&origin=").append(entryObject.getString("id"))
+                        .append("&destination=").append(exitObject.getString("id"))
+                        .toString();
+                Log.d("payload:", payload);
                 HttpClient httpClient = new HttpClient();
                 HttpResponse httpResponse = httpClient.makeHttpRequest(
                         url[0],
                         "POST",
                         "application/x-www-form-urlencoded",
                         null,
-                        "" +
-                                "date=03%2F11%2F2016+03%3A00+PM" +
-                                "&direction=" + directionSelected +
-                                "&origin=" + entryObject.getString("id") +
-                                "&destination=" + exitObject.getString("id")
+                        payload
                 );
                 Log.d("serviceResponse: ", httpResponse.toString());
                 return httpResponse.getResponseBody();
@@ -181,6 +236,15 @@ public class HistoricRatesFragment extends FormBaseFragment {
     public void onDetach() {
         super.onDetach();
         mListener = null;
+    }
+
+    @Override
+    public void onClick(View view) {
+        if (view == dateText) {
+            datePickerDialog.show();
+        } else if (view == timeText) {
+            timePickerDialog.show();
+        }
     }
 
     /**
