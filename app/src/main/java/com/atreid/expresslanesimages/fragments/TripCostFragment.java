@@ -14,6 +14,7 @@ import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.TextView;
 
+import com.atreid.expresslanesimages.ExpressLanesStatusRetriever;
 import com.atreid.expresslanesimages.R;
 import com.atreid.expresslanesimages.loaders.HttpClient;
 import com.atreid.expresslanesimages.loaders.HttpResponse;
@@ -36,7 +37,6 @@ import java.io.IOException;
 public class TripCostFragment extends FormBaseFragment {
 
     private OnFragmentInteractionListener mListener;
-
     public TripCostFragment() {
         // Required empty public constructor
     }
@@ -44,6 +44,8 @@ public class TripCostFragment extends FormBaseFragment {
     private static TextView response;
     private static TextView rate495;
     private static TextView rate95;
+    private static ExpressLanesStatusRetriever expressLanesStatusRetriever =
+            new ExpressLanesStatusRetriever();
     /**
      * Use this factory method to create a new instance of
      * this fragment using the provided parameters.
@@ -153,12 +155,17 @@ public class TripCostFragment extends FormBaseFragment {
                     road = rateObject.getString("road");
                     direction = rateObject.getString("direction");
                     duration = rateObject.getString("duration");
+                    rateSummary = "$" + rate + " on " + road + direction + " " + duration + "m";
                     if ("495".equals(road)) {
                         cursor = rate495;
                     } else {
+                        expressLanesStatusRetriever.updateStatus();
+                        if (ExpressLanesStatusRetriever.CLOSED.equals(
+                                expressLanesStatusRetriever.getDirection())) {
+                            rateSummary = "Closed";
+                        }
                         cursor = rate95;
                     }
-                    rateSummary = "$" + rate + " on " + road + direction + " " + duration + "m";
                     cursor.setText(rateSummary);
                 }
 

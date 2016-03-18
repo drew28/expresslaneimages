@@ -8,26 +8,66 @@
         android:layout_height="wrap_content"
         android:orientation="vertical"
         tools:context=".fragments.TripCostFragment"
-        android:textAlignment="textEnd">
+        android:textAlignment="textEnd"
+        android:padding="15dp">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:ems="10"
+            android:id="@+id/directionLabel"
+            android:text="@string/direction"
+            android:clickable="true"
+            android:textAppearance="?android:attr/textAppearanceLarge"
+            android:paddingEnd="15dip"
+            android:layout_marginTop="10dp" />
 
         <Spinner
             android:id="@+id/direction"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:entries="@array/directions"
-            android:spinnerMode="dialog" />
+            android:spinnerMode="dialog"
+            android:background="#dddddd"
+            android:touchscreenBlocksFocus="true" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:ems="10"
+            android:id="@+id/entryLabel"
+            android:text="@string/entry"
+            android:clickable="true"
+            android:textAppearance="?android:attr/textAppearanceLarge"
+            android:paddingEnd="15dip"
+            android:layout_marginTop="10dp" />
 
         <Spinner
             android:id="@+id/entry"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:spinnerMode="dialog" />
+            android:spinnerMode="dialog"
+            android:background="#dddddd"
+            android:entries="@array/entries_options"/>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:ems="10"
+            android:id="@+id/exitLabel"
+            android:text="@string/exit"
+            android:clickable="true"
+            android:textAppearance="?android:attr/textAppearanceLarge"
+            android:paddingEnd="15dip"
+            android:layout_marginTop="10dp" />
 
         <Spinner
             android:id="@+id/exit"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:spinnerMode="dialog" />
+            android:spinnerMode="dialog"
+            android:background="#dddddd"
+            android:entries="@array/exits_options"/>
 
         <TextView
             android:layout_width="wrap_content"
@@ -100,7 +140,7 @@
             android:textAppearance="?android:attr/textAppearanceSmall"
             android:paddingStart="14dip"
             android:paddingEnd="15dip"
-            android:layout_marginTop="5dp" />
+            android:layout_marginTop="15dp" />
 
     </LinearLayout>
 

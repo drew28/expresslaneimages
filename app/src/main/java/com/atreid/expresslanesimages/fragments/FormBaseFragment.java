@@ -38,6 +38,8 @@ public class FormBaseFragment extends Fragment {
 
     protected ArrayAdapter<String> northboundEntries;
     protected ArrayAdapter<String> southboundEntries;
+    protected ArrayAdapter<String> emptyEntriesAdapter;
+    protected ArrayAdapter<String> emptyExitsAdapter;
 
     protected Map<String, String> entryLabelToCodeMap;
     protected Map<String, JSONArray> exitIdToODSArrayMap;
@@ -65,6 +67,16 @@ public class FormBaseFragment extends Fragment {
                 entryLabelToCodeMap = new HashMap<>();
                 northboundEntries = getEntryAdapter("Northbound");
                 southboundEntries = getEntryAdapter("Southbound");
+                emptyEntriesAdapter = new ArrayAdapter(
+                        getContext(),
+                        select_dialog_item,
+                        getResources().getStringArray(R.array.entries_options)
+                );
+                emptyExitsAdapter = new ArrayAdapter(
+                        getContext(),
+                        select_dialog_item,
+                        getResources().getStringArray(R.array.exits_options)
+                );
             } catch (JSONException e) {
                 e.printStackTrace();
             }
@@ -127,8 +139,10 @@ public class FormBaseFragment extends Fragment {
                     } else {
                         entry.setAdapter(southboundEntries);
                     }
+                    entry.setEnabled(true);
                 }
-                exit.setAdapter(null);
+                exit.setAdapter(emptyExitsAdapter);
+                exit.setEnabled(false);
             }
 
             @Override
@@ -137,6 +151,8 @@ public class FormBaseFragment extends Fragment {
             }
         });
         entry = (Spinner)v.findViewById(R.id.entry);
+        entry.setAdapter(emptyEntriesAdapter);
+        entry.setEnabled(false);
         entry.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
@@ -150,6 +166,7 @@ public class FormBaseFragment extends Fragment {
                         JSONArray exitsFromEntry = entryObject.getJSONArray("exits");
                         ArrayAdapter<String> exitAdapter = getExitAdapter(directionSelected, exitsFromEntry);
                         exit.setAdapter(exitAdapter);
+                        exit.setEnabled(true);
                     } catch (JSONException e) {
                         e.printStackTrace();
                     }
@@ -162,6 +179,8 @@ public class FormBaseFragment extends Fragment {
             }
         });
         exit = (Spinner)v.findViewById(R.id.exit);
+        exit.setAdapter(emptyExitsAdapter);
+        exit.setEnabled(false);
     }
 }
 

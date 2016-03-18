@@ -8,30 +8,40 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:orientation="vertical">
+        android:orientation="vertical"
+        android:padding="15dp">
 
         <LinearLayout
             android:orientation="horizontal"
             android:layout_width="match_parent"
-            android:layout_height="49dp">
-
+            android:layout_height="49dp"
+            android:weightSum="1"
+            android:paddingTop="15dp">
+            <TextView
+                android:layout_width="84dp"
+                android:layout_height="match_parent"
+                android:ems="10"
+                android:id="@+id/dateLabel"
+                android:text="Date"
+                android:clickable="true"
+                android:textAppearance="?android:attr/textAppearanceLarge"
+                android:paddingEnd="15dip"
+                android:layout_weight="0.71" />
 
             <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:inputType="date"
+                android:layout_width="136dp"
+                android:layout_height="match_parent"
                 android:ems="10"
                 android:id="@+id/dateValue"
                 android:text="3/12/2016"
-                android:layout_weight="1"
                 android:clickable="true"
                 android:textAppearance="?android:attr/textAppearanceLarge"
                 android:paddingStart="14dip"
                 android:paddingEnd="15dip" />
 
             <TextView
-                android:layout_width="150dp"
-                android:layout_height="wrap_content"
+                android:layout_width="122dp"
+                android:layout_height="match_parent"
                 android:inputType="time"
                 android:ems="10"
                 android:id="@+id/timeValue"
@@ -44,24 +54,62 @@
                 android:phoneNumber="true" />
         </LinearLayout>
 
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:ems="10"
+            android:id="@+id/directionLabel"
+            android:text="@string/direction"
+            android:clickable="true"
+            android:textAppearance="?android:attr/textAppearanceLarge"
+            android:paddingEnd="15dip"
+            android:layout_marginTop="10dp" />
+
         <Spinner
             android:id="@+id/direction"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:entries="@array/directions"
-            android:spinnerMode="dialog" />
+            android:spinnerMode="dialog"
+            android:background="#dddddd" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:ems="10"
+            android:id="@+id/entryLabel"
+            android:text="@string/entry"
+            android:clickable="true"
+            android:textAppearance="?android:attr/textAppearanceLarge"
+            android:paddingEnd="15dip"
+            android:layout_marginTop="10dp" />
 
         <Spinner
             android:id="@+id/entry"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:spinnerMode="dialog" />
+            android:spinnerMode="dialog"
+            android:background="#dddddd"
+            android:entries="@array/entries_options"/>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:ems="10"
+            android:id="@+id/exitLabel"
+            android:text="@string/exit"
+            android:clickable="true"
+            android:textAppearance="?android:attr/textAppearanceLarge"
+            android:paddingEnd="15dip"
+            android:layout_marginTop="10dp" />
 
         <Spinner
             android:id="@+id/exit"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:spinnerMode="dialog" />
+            android:spinnerMode="dialog"
+            android:background="#dddddd"
+            android:entries="@array/exits_options"/>
 
         <TextView
             android:layout_width="wrap_content"
@@ -69,7 +117,8 @@
             android:textAppearance="?android:attr/textAppearanceMedium"
             android:paddingStart="14dip"
             android:paddingEnd="15dip"
-            android:id="@+id/response" />
+            android:id="@+id/response"
+            android:layout_marginTop="15dp" />
 
     </LinearLayout>
 

@@ -19,6 +19,10 @@ public class ExpressLanesStatusRetriever {
     public static final String CLOSED = "closed";
 
     public ExpressLanesStatusRetriever() {
+        this.updateStatus();
+    }
+
+    public void updateStatus() {
         status = "unable to retrieve status";
         DateTime dt = new DateTime();
         int hour = dt.getHourOfDay();

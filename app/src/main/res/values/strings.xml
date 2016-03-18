@@ -14,9 +14,18 @@
     <string name="option_choose_your_exit">Choose Your Exit</string>
     <string name="disclaimer"><b>Please Note:</b> This price and duration are subject to change
         within the next five minutes and may not be what you see on the road</string>
+    <string name="direction">Direction</string>
+    <string name="entry">Entry</string>
+    <string name="exit">Exit</string>
     <string-array name="directions">
         <item>Choose your Direction</item>
         <item>Northbound</item>
         <item>Southbound</item>
+    </string-array>
+    <string-array name="entries_options">
+        <item>Choose your Entry</item>
+    </string-array>
+    <string-array name="exits_options">
+        <item>Choose your Exit</item>
     </string-array>
 </resources>
