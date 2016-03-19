@@ -18,15 +18,14 @@
             android:weightSum="1"
             android:paddingTop="15dp">
             <TextView
-                android:layout_width="84dp"
+                android:layout_width="70dp"
                 android:layout_height="match_parent"
                 android:ems="10"
                 android:id="@+id/dateLabel"
                 android:text="Date"
                 android:clickable="true"
                 android:textAppearance="?android:attr/textAppearanceLarge"
-                android:paddingEnd="15dip"
-                android:layout_weight="0.71" />
+                android:paddingEnd="15dip" />
 
             <TextView
                 android:layout_width="136dp"
@@ -37,7 +36,9 @@
                 android:clickable="true"
                 android:textAppearance="?android:attr/textAppearanceLarge"
                 android:paddingStart="14dip"
-                android:paddingEnd="15dip" />
+                android:paddingEnd="15dip"
+                android:layout_weight="0.67"
+                android:textAlignment="textEnd" />
 
             <TextView
                 android:layout_width="122dp"
