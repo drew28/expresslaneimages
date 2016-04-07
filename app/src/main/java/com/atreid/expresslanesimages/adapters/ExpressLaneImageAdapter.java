@@ -11,7 +11,6 @@ import android.widget.TextView;
 
 import com.atreid.expresslanesimages.ExpressLaneImage;
 import com.atreid.expresslanesimages.R;
-import com.squareup.picasso.MemoryPolicy;
 import com.squareup.picasso.Picasso;
 
 public class ExpressLaneImageAdapter extends ArrayAdapter<ExpressLaneImage> {
@@ -57,6 +56,12 @@ public class ExpressLaneImageAdapter extends ArrayAdapter<ExpressLaneImage> {
                 .centerInside()
                 .into(holder.imgIcon);
         return row;
+    }
+
+    public void invalidateImages() {
+        for (int i = 0; i < data.length; i++) {
+            Picasso.with(context).invalidate(data[i].icon);
+        }
     }
 
     static class ExpressLaneImageHolder

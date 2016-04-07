@@ -1,5 +1,35 @@
 {
   "images": [{
+    "url": "https://www.expresslanes.com/generate-dms-sign.php?tmsName=DMS-495-S-44.8&direction=S&road=495&type=entry",
+    "description": "Southbound entry from Beltway approximately one mile after the George Washington Parkway/Georgetown Pike exit.",
+    "route": "495",
+    "direction": "south"
+  }, {
+    "url": "https://www.expresslanes.com/generate-dms-sign.php?tmsName=DMS-DTR-E-0.7&direction=S&road=495&type=entry",
+    "description": "Southbound entry point from Dulles Toll Road (Route 267)",
+    "route": "495",
+    "direction": "south"
+  }, {
+    "url": "https://www.expresslanes.com/generate-dms-sign.php?tmsName=DMS-495-S-44.8&direction=S&road=495&type=entry",
+    "description": "Southbound entry point from Jones Branch Drive",
+    "route": "495",
+    "direction": "south"
+  }, {
+    "url": "https://www.expresslanes.com/generate-dms-sign.php?tmsName=DMS-WP-S-0.1-2&direction=S&road=495&type=entry",
+    "description": "Southbound entry point from Westpark Drive",
+    "route": "495",
+    "direction": "south"
+  }, {
+    "url": "https://www.expresslanes.com/generate-dms-sign.php?tmsName=DMS-LP-E-0.1&direction=S&road=495&type=entry",
+    "description": "Southbound entry point from Leesburg Pike (Route 7)",
+    "route": "495",
+    "direction": "south"
+  }, {
+    "url": "https://www.expresslanes.com/generate-dms-sign.php?tmsName=DMS-66-W-0.2&direction=S&road=495&type=entry",
+    "description": "Southbound entry point from I-66 west",
+    "route": "495",
+    "direction": "south"
+  }, {
     "url": "https://www.expresslanes.com/generate-dms-sign.php?tmsName=DMS-LH-E-0.1-1&direction=S&road=495&type=entry",
     "description": "Southbound entry point at Lee Highway (Route 29)",
     "route": "495",
@@ -7,6 +37,31 @@
   }, {
     "url": "https://www.expresslanes.com/generate-dms-sign.php?tmsName=DMS-495-N-55.6&direction=N&road=495&type=entry",
     "description": "Northbound entry point after the Springfield Interchange",
+    "route": "495",
+    "direction": "north"
+  }, {
+    "url": "https://www.expresslanes.com/generate-dms-sign.php?tmsName=DMS-BR-W-0.2&direction=N&road=495&type=entry",
+    "description": "Northbound entry point from Braddock",
+    "route": "495",
+    "direction": "north"
+  }, {
+    "url": "https://www.expresslanes.com/generate-dms-sign.php?tmsName=DMS-GR-W-0.2&direction=N&road=495&type=entry",
+    "description": "Northbound entry point from Gallows Road",
+    "route": "495",
+    "direction": "north"
+  }, {
+    "url": "https://www.expresslanes.com/generate-dms-sign.php?tmsName=DMS-66-E-0.5&direction=N&road=495&type=entry",
+    "description": "Northbound entry point from I-66 east",
+    "route": "495",
+    "direction": "north"
+  }, {
+    "url": "https://www.expresslanes.com/generate-dms-sign.php?tmsName=DMS-WP-S-0.1-1&direction=N&road=495&type=entry",
+    "description": "Northbound entry point from Westpark Drive",
+    "route": "495",
+    "direction": "north"
+  }, {
+    "url": "https://www.expresslanes.com/generate-dms-sign.php?tmsName=DMS-JB-S-0.2-1&direction=N&road=495&type=entry",
+    "description": "Northbound entry point from Jones Branch Drive",
     "route": "495",
     "direction": "north"
   }, {

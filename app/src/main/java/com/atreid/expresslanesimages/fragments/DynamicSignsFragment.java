@@ -3,18 +3,21 @@ package com.atreid.expresslanesimages.fragments;
 import android.content.Context;
 import android.net.Uri;
 import android.os.Bundle;
+import android.os.Handler;
 import android.support.v4.app.Fragment;
+import android.support.v4.widget.SwipeRefreshLayout;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AbsListView;
 import android.widget.AdapterView;
 import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import com.atreid.expresslanesimages.ExpressLaneImage;
-import com.atreid.expresslanesimages.adapters.ExpressLaneImageAdapter;
 import com.atreid.expresslanesimages.R;
+import com.atreid.expresslanesimages.adapters.ExpressLaneImageAdapter;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -31,19 +34,23 @@ import java.util.ArrayList;
  * Use the {@link DynamicSignsFragment#newInstance} factory method to
  * create an instance of this fragment.
  */
-public class DynamicSignsFragment extends Fragment {
+public class DynamicSignsFragment extends Fragment implements SwipeRefreshLayout.OnRefreshListener {
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
     private static final String ARG_IMAGES = "images";
     private static final String ARG_DIRECTION = "direction";
     private static final String ARG_STATUS = "status";
 
+    private SwipeRefreshLayout swiperefresh;
+    private Handler handler = new Handler();
+
     // TODO: Rename and change types of parameters
     private JSONArray mImages;
     private String mDirection;
     private String mStatus;
+    private ListView listView1;
     private ArrayList<ExpressLaneImage> expressLaneImageData;
-
+    private ExpressLaneImageAdapter adapter;
     private OnFragmentInteractionListener mListener;
 
     public DynamicSignsFragment() {
@@ -108,13 +115,42 @@ public class DynamicSignsFragment extends Fragment {
         return inflater.inflate(R.layout.fragment_dynamic_signs, container, false);
     }
 
+//    private final Runnable refreshing = new Runnable(){
+//        public void run(){
+//            try {
+//                swiperefresh.setRefreshing(false);
+//            }
+//            catch (Exception e) {
+//                e.printStackTrace();
+//            }
+//        }
+//    };
+
     public void onViewCreated(View v, Bundle savedInstanceState) {
+        // find the layout
+        swiperefresh = (SwipeRefreshLayout) v.findViewById(R.id.swiperefresh);
+        // the refresh listner. this would be called when the layout is pulled down
+        swiperefresh.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
+
+            @Override
+            public void onRefresh() {
+                // get the new data from you data source
+                adapter.invalidateImages();
+                adapter.notifyDataSetChanged();
+                swiperefresh.setRefreshing(false);
+                // handler.post(refreshing);
+            }
+        });
+        // sets the colors used in the refresh animation
+        swiperefresh.setColorSchemeResources(R.color.colorAccent, R.color.colorPrimary,
+                R.color.colorPrimaryDark, R.color.colorPrimary);
+
         TextView statusTextView = (TextView)v.findViewById(R.id.expressLanesStatus);
         String status = "95 Express Lanes status: " + mStatus;
         statusTextView.setText(status);
-        ExpressLaneImageAdapter adapter = new ExpressLaneImageAdapter(getActivity(),
+        adapter = new ExpressLaneImageAdapter(getActivity(),
                 R.layout.listview_item_row, expressLaneImageData.toArray(new ExpressLaneImage[expressLaneImageData.size()]));
-        ListView listView1 = (ListView) v.findViewById(R.id.listView1);
+        listView1 = (ListView) v.findViewById(R.id.listView1);
 //        View header = (View) getActivity().getLayoutInflater().inflate(R.layout.listview_header_row, null);
 //        listView1.addHeaderView(header);
 
@@ -132,6 +168,27 @@ public class DynamicSignsFragment extends Fragment {
                 String item = position + ". " + parent.getItemAtPosition(position);
                 Toast.makeText(view.getContext(), item, Toast.LENGTH_SHORT).show();
 //                }
+            }
+        });
+        listView1.setOnScrollListener(new AbsListView.OnScrollListener() {
+
+            @Override
+            public void onScrollStateChanged(AbsListView view, int scrollState) {
+            }
+
+            @Override
+            public void onScroll(AbsListView view, int firstVisibleItem,
+                                 int visibleItemCount, int totalItemCount) {
+                boolean enable = false;
+                if (listView1 != null && listView1.getChildCount() > 0) {
+                    // check if the first item of the list is visible
+                    boolean firstItemVisible = listView1.getFirstVisiblePosition() == 0;
+                    // check if the top of the first item is visible
+                    boolean topOfFirstItemVisible = listView1.getChildAt(0).getTop() == 0;
+                    // enabling or disabling the refresh layout
+                    enable = firstItemVisible && topOfFirstItemVisible;
+                }
+                swiperefresh.setEnabled(enable);
             }
         });
     }
@@ -158,6 +215,11 @@ public class DynamicSignsFragment extends Fragment {
     public void onDetach() {
         super.onDetach();
         mListener = null;
+    }
+
+    @Override
+    public void onRefresh() {
+
     }
 
     /**
