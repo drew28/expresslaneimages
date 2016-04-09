@@ -14,7 +14,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.ViewGroup;
-import android.widget.AdapterView;
+import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.TextView;
 import android.widget.TimePicker;
@@ -53,6 +53,8 @@ public class HistoricRatesFragment extends FormBaseFragment implements OnClickLi
     private static TextView response;
     private static TextView dateText;
     private static TextView timeText;
+
+    private static Button submitButton;
 
     private DatePickerDialog datePickerDialog;
     private TimePickerDialog timePickerDialog;
@@ -127,35 +129,29 @@ public class HistoricRatesFragment extends FormBaseFragment implements OnClickLi
             }
         }, dateTime.getHourOfDay(), dateTime.getMinuteOfHour(), false);
 
-        //setup selected handler for spinner
-        exit.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+        submitButton = (Button) v.findViewById(R.id.historic_rates_submit_button);
+        submitButton.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                if (position != 0) {
-                    String exitSelected = parent.getItemAtPosition(position).toString();
-                    exitObject = exitLabelToExitObjectMap.get(exitSelected);
-                    response.setText("");
-                    try {
-                        JSONArray odsArray = exitIdToODSArrayMap.get(exitObject.getString("id"));
-                        String ods; // = odsArray.get(0).toString();
-                        String url = "https://www.expresslanes.com/historic-rate-data";
-                        ConnectivityManager connMgr = (ConnectivityManager)
-                                getActivity().getSystemService(Context.CONNECTIVITY_SERVICE);
-                        NetworkInfo networkInfo = connMgr.getActiveNetworkInfo();
-                        if (networkInfo != null && networkInfo.isConnected()) {
-                            new DownloadTripCostResponseTask().execute(url);
-                        } else {
-                            response.setText("No network connection available.");
-                        }
-                    } catch (JSONException e) {
-                        e.printStackTrace();
-                    }
+            public void onClick(View v) {
+                response.setText("");
+                if (!isValidForm()) {
+                    return;
                 }
-            }
-
-            @Override
-            public void onNothingSelected(AdapterView<?> parent) {
-
+                try {
+                    JSONArray odsArray = exitIdToODSArrayMap.get(exitObject.getString("id"));
+                    String ods; // = odsArray.get(0).toString();
+                    String url = "https://www.expresslanes.com/historic-rate-data";
+                    ConnectivityManager connMgr = (ConnectivityManager)
+                            getActivity().getSystemService(Context.CONNECTIVITY_SERVICE);
+                    NetworkInfo networkInfo = connMgr.getActiveNetworkInfo();
+                    if (networkInfo != null && networkInfo.isConnected()) {
+                        new DownloadTripCostResponseTask().execute(url);
+                    } else {
+                        response.setText("No network connection available.");
+                    }
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
             }
         });
     }

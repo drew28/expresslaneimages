@@ -69,6 +69,12 @@
             android:background="#dddddd"
             android:entries="@array/exits_options"/>
 
+        <Button
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="View Your Route"
+            android:id="@+id/trip_cost_submit_button" />
+
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -102,6 +108,7 @@
                 android:textAppearance="?android:attr/textAppearanceMedium"
                 android:paddingStart="14dip"
                 android:paddingEnd="15dip"/>
+
 
 
         </LinearLayout>

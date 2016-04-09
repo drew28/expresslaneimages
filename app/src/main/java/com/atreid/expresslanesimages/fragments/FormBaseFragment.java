@@ -7,6 +7,7 @@ import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Spinner;
+import android.widget.Toast;
 
 import com.atreid.expresslanesimages.R;
 
@@ -126,6 +127,25 @@ public class FormBaseFragment extends Fragment {
         return new ArrayAdapter<>(getContext(), select_dialog_item, list);
     }
 
+    protected boolean isValidForm() {
+        String directionString = getContext().getResources().getStringArray(R.array.directions)[0];
+        String entryString = getContext().getResources().getString(R.string.option_choose_your_entry);
+        String exitString = getContext().getResources().getString(R.string.option_choose_your_exit);
+        if (directionString.equals(direction.getSelectedItem().toString())) {
+            Toast.makeText(getContext(), directionString, Toast.LENGTH_SHORT).show();
+            return false;
+        }
+        if (entryString.equals(entry.getSelectedItem().toString())) {
+            Toast.makeText(getContext(), entryString, Toast.LENGTH_SHORT).show();
+            return false;
+        }
+        if (exitString.equals(exit.getSelectedItem().toString())) {
+            Toast.makeText(getContext(), exitString, Toast.LENGTH_SHORT).show();
+            return false;
+        }
+        return true;
+    }
+
     public void onViewCreated(View v, Bundle savedInstanceState) {
         direction = (Spinner)v.findViewById(R.id.direction);
         direction.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
@@ -181,6 +201,22 @@ public class FormBaseFragment extends Fragment {
         exit = (Spinner)v.findViewById(R.id.exit);
         exit.setAdapter(emptyExitsAdapter);
         exit.setEnabled(false);
+        exit.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                if (position != 0) {
+                    String exitSelected = parent.getItemAtPosition(position).toString();
+                    exitObject = exitLabelToExitObjectMap.get(exitSelected);
+                } else {
+                    exitObject = null;
+                }
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {
+
+            }
+        });
     }
 }
 

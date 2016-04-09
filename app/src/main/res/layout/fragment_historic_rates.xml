@@ -112,6 +112,12 @@
             android:background="#dddddd"
             android:entries="@array/exits_options"/>
 
+        <Button
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Show Prices"
+            android:id="@+id/historic_rates_submit_button" />
+
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"

@@ -11,7 +11,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.AdapterView;
+import android.widget.Button;
 import android.widget.TextView;
 
 import com.atreid.expresslanesimages.ExpressLanesStatusRetriever;
@@ -44,6 +44,7 @@ public class TripCostFragment extends FormBaseFragment {
     private static TextView response;
     private static TextView rate495;
     private static TextView rate95;
+    private static Button submitButton;
     private static ExpressLanesStatusRetriever expressLanesStatusRetriever =
             new ExpressLanesStatusRetriever();
     /**
@@ -81,37 +82,33 @@ public class TripCostFragment extends FormBaseFragment {
         response = (TextView)v.findViewById(R.id.response);
         rate495 = (TextView)v.findViewById(R.id.rate495);
         rate95 = (TextView)v.findViewById(R.id.rate95);
-        exit.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+
+        submitButton = (Button) v.findViewById(R.id.trip_cost_submit_button);
+        submitButton.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                if (position != 0) {
-                    String exitSelected = parent.getItemAtPosition(position).toString();
-                    exitObject = exitLabelToExitObjectMap.get(exitSelected);
-                    response.setText("");
-                    try {
-                        JSONArray odsArray = exitIdToODSArrayMap.get(exitObject.getString("id"));
-                        String ods; // = odsArray.get(0).toString();
-                        String url = "https://www.expresslanes.com/on-the-road-api?";
-                        for (int i = 0; i < odsArray.length(); i++) {
-                            url += ((i > 0) ? "&" : "") + "ods%5B%5D=" + odsArray.get(i);
-                        }
-                        ConnectivityManager connMgr = (ConnectivityManager)
-                                getActivity().getSystemService(Context.CONNECTIVITY_SERVICE);
-                        NetworkInfo networkInfo = connMgr.getActiveNetworkInfo();
-                        if (networkInfo != null && networkInfo.isConnected()) {
-                            new DownloadTripCostResponseTask().execute(url);
-                        } else {
-                            response.setText("No network connection available.");
-                        }
-                    } catch (JSONException e) {
-                        e.printStackTrace();
-                    }
+            public void onClick(View v) {
+                response.setText("");
+                if (!isValidForm()) {
+                    return;
                 }
-            }
-
-            @Override
-            public void onNothingSelected(AdapterView<?> parent) {
-
+                try {
+                    JSONArray odsArray = exitIdToODSArrayMap.get(exitObject.getString("id"));
+                    String ods; // = odsArray.get(0).toString();
+                    String url = "https://www.expresslanes.com/on-the-road-api?";
+                    for (int i = 0; i < odsArray.length(); i++) {
+                        url += ((i > 0) ? "&" : "") + "ods%5B%5D=" + odsArray.get(i);
+                    }
+                    ConnectivityManager connMgr = (ConnectivityManager)
+                            getActivity().getSystemService(Context.CONNECTIVITY_SERVICE);
+                    NetworkInfo networkInfo = connMgr.getActiveNetworkInfo();
+                    if (networkInfo != null && networkInfo.isConnected()) {
+                        new DownloadTripCostResponseTask().execute(url);
+                    } else {
+                        response.setText("No network connection available.");
+                    }
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
             }
         });
     }
