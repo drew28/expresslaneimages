@@ -16,6 +16,7 @@ import android.widget.TextView;
 
 import com.atreid.expresslanesimages.ExpressLanesStatusRetriever;
 import com.atreid.expresslanesimages.R;
+import com.atreid.expresslanesimages.loaders.GetHOVDirection;
 import com.atreid.expresslanesimages.loaders.HttpClient;
 import com.atreid.expresslanesimages.loaders.HttpResponse;
 
@@ -45,8 +46,7 @@ public class TripCostFragment extends FormBaseFragment {
     private static TextView rate495;
     private static TextView rate95;
     private static Button submitButton;
-    private static ExpressLanesStatusRetriever expressLanesStatusRetriever =
-            new ExpressLanesStatusRetriever();
+    private static ExpressLanesStatusRetriever expressLanesStatusRetriever;
     /**
      * Use this factory method to create a new instance of
      * this fragment using the provided parameters.
@@ -66,7 +66,7 @@ public class TripCostFragment extends FormBaseFragment {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         if (getArguments() != null) {
-
+            new GETHOVDirectionFirst().execute();
         }
     }
 
@@ -112,6 +112,16 @@ public class TripCostFragment extends FormBaseFragment {
             }
         });
     }
+
+    private static class GETHOVDirectionFirst extends GetHOVDirection {
+
+        // onPostExecute displays the results of the AsyncTask.
+        @Override
+        protected void onPostExecute(String result) {
+            super.onPostExecute(result);
+        }
+    }
+
 
     private static class DownloadTripCostResponseTask extends AsyncTask<String, Void, String> {
 

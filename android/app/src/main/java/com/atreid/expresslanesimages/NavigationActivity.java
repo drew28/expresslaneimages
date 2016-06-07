@@ -100,14 +100,13 @@ public class NavigationActivity extends AppCompatActivity
     public class SectionsPagerAdapter extends FragmentPagerAdapter {
         private JSONObject image_schema;
         private JSONObject entry_exit;
-        private ExpressLanesStatusRetriever expressLanesStatus;
+
         public SectionsPagerAdapter(FragmentManager fm) throws JSONException {
             super(fm);
             Context context = getBaseContext();
             Resources resources = context.getResources();
             image_schema = (new JSONLoader(resources.getString(R.string.json_images), context)).loadJSON();
             entry_exit = (new JSONLoader(resources.getString(R.string.json_entry_exit), context)).loadJSON();
-            expressLanesStatus = new ExpressLanesStatusRetriever();
         }
 
         @Override
@@ -115,8 +114,7 @@ public class NavigationActivity extends AppCompatActivity
             // getItem is called to instantiate the fragment for the given page.
             if (position == 0) {
                 try {
-                    return DynamicSignsFragment.newInstance(image_schema.getJSONArray("images"),
-                            expressLanesStatus.getDirection(), expressLanesStatus.toString());
+                    return DynamicSignsFragment.newInstance(image_schema.getJSONArray("images"));
                 } catch (JSONException e) {
                     e.printStackTrace();
                 }
