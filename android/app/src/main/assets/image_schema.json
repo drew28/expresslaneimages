@@ -1,0 +1,103 @@
+{
+  "images": [{
+    "url": "https://www.expresslanes.com/generate-dms-sign.php?tmsName=DMS-495-S-44.8&direction=S&road=495&type=entry",
+    "description": "Southbound entry from Beltway approximately one mile after the George Washington Parkway/Georgetown Pike exit.",
+    "route": "495",
+    "direction": "south"
+  }, {
+    "url": "https://www.expresslanes.com/generate-dms-sign.php?tmsName=DMS-DTR-E-0.7&direction=S&road=495&type=entry",
+    "description": "Southbound entry point from Dulles Toll Road (Route 267)",
+    "route": "495",
+    "direction": "south"
+  }, {
+    "url": "https://www.expresslanes.com/generate-dms-sign.php?tmsName=DMS-495-S-44.8&direction=S&road=495&type=entry",
+    "description": "Southbound entry point from Jones Branch Drive",
+    "route": "495",
+    "direction": "south"
+  }, {
+    "url": "https://www.expresslanes.com/generate-dms-sign.php?tmsName=DMS-WP-S-0.1-2&direction=S&road=495&type=entry",
+    "description": "Southbound entry point from Westpark Drive",
+    "route": "495",
+    "direction": "south"
+  }, {
+    "url": "https://www.expresslanes.com/generate-dms-sign.php?tmsName=DMS-LP-E-0.1&direction=S&road=495&type=entry",
+    "description": "Southbound entry point from Leesburg Pike (Route 7)",
+    "route": "495",
+    "direction": "south"
+  }, {
+    "url": "https://www.expresslanes.com/generate-dms-sign.php?tmsName=DMS-66-W-0.2&direction=S&road=495&type=entry",
+    "description": "Southbound entry point from I-66 west",
+    "route": "495",
+    "direction": "south"
+  }, {
+    "url": "https://www.expresslanes.com/generate-dms-sign.php?tmsName=DMS-LH-E-0.1-1&direction=S&road=495&type=entry",
+    "description": "Southbound entry point at Lee Highway (Route 29)",
+    "route": "495",
+    "direction": "south"
+  }, {
+    "url": "https://www.expresslanes.com/generate-dms-sign.php?tmsName=DMS-495-N-55.6&direction=N&road=495&type=entry",
+    "description": "Northbound entry point after the Springfield Interchange",
+    "route": "495",
+    "direction": "north"
+  }, {
+    "url": "https://www.expresslanes.com/generate-dms-sign.php?tmsName=DMS-BR-W-0.2&direction=N&road=495&type=entry",
+    "description": "Northbound entry point from Braddock",
+    "route": "495",
+    "direction": "north"
+  }, {
+    "url": "https://www.expresslanes.com/generate-dms-sign.php?tmsName=DMS-GR-W-0.2&direction=N&road=495&type=entry",
+    "description": "Northbound entry point from Gallows Road",
+    "route": "495",
+    "direction": "north"
+  }, {
+    "url": "https://www.expresslanes.com/generate-dms-sign.php?tmsName=DMS-66-E-0.5&direction=N&road=495&type=entry",
+    "description": "Northbound entry point from I-66 east",
+    "route": "495",
+    "direction": "north"
+  }, {
+    "url": "https://www.expresslanes.com/generate-dms-sign.php?tmsName=DMS-WP-S-0.1-1&direction=N&road=495&type=entry",
+    "description": "Northbound entry point from Westpark Drive",
+    "route": "495",
+    "direction": "north"
+  }, {
+    "url": "https://www.expresslanes.com/generate-dms-sign.php?tmsName=DMS-JB-S-0.2-1&direction=N&road=495&type=entry",
+    "description": "Northbound entry point from Jones Branch Drive",
+    "route": "495",
+    "direction": "north"
+  }, {
+    "url": "https://www.expresslanes.com/generate-dms-sign.php?tmsName=DMS-395-S-2.4-HOV&direction=S&road=95&type=entry",
+    "description": "Southbound entry point from I-395 general purpose lanes",
+    "route": "95",
+    "direction": "south"
+  }, {
+    "url": "https://www.expresslanes.com/generate-dms-sign.php?tmsName=DMS-95-S-170.0-XP&direction=S&road=95&type=segment",
+    "description": "Southbound 95 Express Lanes before Franconia Road",
+    "route": "95",
+    "direction": "south"
+  }, {
+    "url": "https://www.expresslanes.com/generate-dms-sign.php?tmsName=DMS-95-S-162.0-GP&direction=S&road=95&type=entry",
+    "description": "Southbound entry point from general purpose lanes before Route 123",
+    "route": "95",
+    "direction": "south"
+  }, {
+    "url": "https://www.expresslanes.com/generate-dms-sign.php?tmsName=DMS-95-S-157.4-GP&direction=S&road=95&type=entry",
+    "description": "Southbound entry point from general purpose lanes before Opitz Boulevard",
+    "route": "95",
+    "direction": "south"
+  }, {
+    "url": "https://www.expresslanes.com/generate-dms-sign.php?tmsName=DMS-95-N-169.4-GP&direction=N&road=95&type=entry",
+    "description": "Northbound entry point from general purpose lanes before Franconia Road",
+    "route": "95",
+    "direction": "north"
+  }, {
+    "url": "https://www.expresslanes.com/generate-dms-sign.php?tmsName=DMS-95-N-157.6-GP&direction=N&road=95&type=entry",
+    "description": "Northbound entry point from general purpose lanes near Opitz Boulevard",
+    "route": "95",
+    "direction": "north"
+  }, {
+    "url": "https://www.expresslanes.com/generate-dms-sign.php?tmsName=DMS-95-N-145.4-GP&direction=N&road=95&type=entry",
+    "description": "Northbound entry point from general purpose lanes before Telegraph Road",
+    "route": "95",
+    "direction": "north"
+  }]
+}
