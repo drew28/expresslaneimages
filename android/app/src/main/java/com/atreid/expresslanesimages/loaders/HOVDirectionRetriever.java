@@ -15,7 +15,7 @@ import java.io.IOException;
 /**
  * Created by andrewreid on 6/7/16.
  */
-public class GetHOVDirection extends AsyncTask<String, Void, String> {
+public class HOVDirectionRetriever extends AsyncTask<String, Void, String> {
 
     public String direction;
     public static final String NORTH = "north";
