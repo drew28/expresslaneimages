@@ -36,17 +36,18 @@ import java.io.IOException;
  */
 public class TripCostFragment extends FormBaseFragment {
 
+    protected static final String ARG_DIRECTION = "direction";
     private OnFragmentInteractionListener mListener;
     public TripCostFragment() {
         // Required empty public constructor
     }
 
+    private static String mDirection;
     private static TextView response;
     private static TextView rate495;
     private static TextView rate95;
     private static Button submitButton;
-    private static ExpressLanesStatusRetriever expressLanesStatusRetriever =
-            new ExpressLanesStatusRetriever();
+
     /**
      * Use this factory method to create a new instance of
      * this fragment using the provided parameters.
@@ -54,10 +55,11 @@ public class TripCostFragment extends FormBaseFragment {
      * @param entry_exit Set of north and southbound entries and exits
      * @return A new instance of fragment HistoricRatesFragment.
      */
-    public static TripCostFragment newInstance(JSONObject entry_exit) {
+    public static TripCostFragment newInstance(JSONObject entry_exit, String direction) {
         TripCostFragment fragment = new TripCostFragment();
         Bundle args = new Bundle();
         args.putString(ARG_ENTRY_EXIT, entry_exit.toString());
+        args.putString(ARG_DIRECTION, direction);
         fragment.setArguments(args);
         return fragment;
     }
@@ -66,7 +68,7 @@ public class TripCostFragment extends FormBaseFragment {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         if (getArguments() != null) {
-
+            mDirection  = getArguments().getString(ARG_DIRECTION);
         }
     }
 
@@ -156,9 +158,7 @@ public class TripCostFragment extends FormBaseFragment {
                     if ("495".equals(road)) {
                         cursor = rate495;
                     } else {
-                        expressLanesStatusRetriever.updateStatus();
-                        if (ExpressLanesStatusRetriever.CLOSED.equals(
-                                expressLanesStatusRetriever.getDirection())) {
+                        if (!direction.equals(mDirection)) {
                             rateSummary = "Closed";
                         }
                         cursor = rate95;

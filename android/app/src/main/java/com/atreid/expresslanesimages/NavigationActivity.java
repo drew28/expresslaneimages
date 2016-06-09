@@ -1,5 +1,6 @@
 package com.atreid.expresslanesimages;
 
+import android.app.Activity;
 import android.content.Context;
 import android.content.res.Resources;
 import android.net.Uri;
@@ -16,6 +17,7 @@ import android.view.MenuItem;
 import com.atreid.expresslanesimages.fragments.DynamicSignsFragment;
 import com.atreid.expresslanesimages.fragments.HistoricRatesFragment;
 import com.atreid.expresslanesimages.fragments.TripCostFragment;
+import com.atreid.expresslanesimages.loaders.HOVDirectionRetriever;
 import com.atreid.expresslanesimages.loaders.JSONLoader;
 
 import org.json.JSONException;
@@ -45,24 +47,7 @@ public class NavigationActivity extends AppCompatActivity
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_navigation);
-
-//        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
-//        setSupportActionBar(toolbar);
-        // Create the adapter that will return a fragment for each of the three
-        // primary sections of the activity.
-        try {
-            mSectionsPagerAdapter = new SectionsPagerAdapter(getSupportFragmentManager());
-        } catch (JSONException e) {
-            e.printStackTrace();
-        }
-
-        // Set up the ViewPager with the sections adapter.
-        mViewPager = (ViewPager) findViewById(R.id.container);
-        mViewPager.setAdapter(mSectionsPagerAdapter);
-
-        TabLayout tabLayout = (TabLayout) findViewById(R.id.tabs);
-        tabLayout.setupWithViewPager(mViewPager);
-
+        new GETHOVDirectionFirst(this).execute();
     }
 
 
@@ -93,6 +78,39 @@ public class NavigationActivity extends AppCompatActivity
 
     }
 
+    public class GETHOVDirectionFirst extends HOVDirectionRetriever {
+
+        private Activity activity;
+
+        public GETHOVDirectionFirst(Activity activity) {
+            this.activity = activity;
+        }
+
+        // onPostExecute displays the results of the AsyncTask.
+        @Override
+        protected void onPostExecute(String result) {
+            super.onPostExecute(result);
+            //        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+//        setSupportActionBar(toolbar);
+            // Create the adapter that will return a fragment for each of the three
+            // primary sections of the activity.
+            try {
+                mSectionsPagerAdapter = new SectionsPagerAdapter(getSupportFragmentManager(), direction);
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
+
+            // Set up the ViewPager with the sections adapter.
+            mViewPager = (ViewPager) findViewById(R.id.container);
+            mViewPager.setAdapter(mSectionsPagerAdapter);
+
+            TabLayout tabLayout = (TabLayout) findViewById(R.id.tabs);
+            tabLayout.setupWithViewPager(mViewPager);
+        }
+
+    }
+
+
     /**
      * A {@link FragmentPagerAdapter} that returns a fragment corresponding to
      * one of the sections/tabs/pages.
@@ -100,14 +118,15 @@ public class NavigationActivity extends AppCompatActivity
     public class SectionsPagerAdapter extends FragmentPagerAdapter {
         private JSONObject image_schema;
         private JSONObject entry_exit;
-        private ExpressLanesStatusRetriever expressLanesStatus;
-        public SectionsPagerAdapter(FragmentManager fm) throws JSONException {
+        private String direction;
+
+        public SectionsPagerAdapter(FragmentManager fm, String direction) throws JSONException {
             super(fm);
+            this.direction = direction;
             Context context = getBaseContext();
             Resources resources = context.getResources();
             image_schema = (new JSONLoader(resources.getString(R.string.json_images), context)).loadJSON();
             entry_exit = (new JSONLoader(resources.getString(R.string.json_entry_exit), context)).loadJSON();
-            expressLanesStatus = new ExpressLanesStatusRetriever();
         }
 
         @Override
@@ -115,13 +134,12 @@ public class NavigationActivity extends AppCompatActivity
             // getItem is called to instantiate the fragment for the given page.
             if (position == 0) {
                 try {
-                    return DynamicSignsFragment.newInstance(image_schema.getJSONArray("images"),
-                            expressLanesStatus.getDirection(), expressLanesStatus.toString());
+                    return DynamicSignsFragment.newInstance(image_schema.getJSONArray("images"), direction);
                 } catch (JSONException e) {
                     e.printStackTrace();
                 }
             } else if (position == 1) {
-                return TripCostFragment.newInstance(entry_exit);
+                return TripCostFragment.newInstance(entry_exit, direction);
             }
             return HistoricRatesFragment.newInstance(entry_exit);
 

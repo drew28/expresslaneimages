@@ -1,5 +1,6 @@
 package com.atreid.expresslanesimages.fragments;
 
+import android.app.Activity;
 import android.content.Context;
 import android.net.Uri;
 import android.os.Bundle;
@@ -18,6 +19,7 @@ import android.widget.Toast;
 import com.atreid.expresslanesimages.ExpressLaneImage;
 import com.atreid.expresslanesimages.R;
 import com.atreid.expresslanesimages.adapters.ExpressLaneImageAdapter;
+import com.atreid.expresslanesimages.loaders.HOVDirectionRetriever;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -38,20 +40,24 @@ public class DynamicSignsFragment extends Fragment implements SwipeRefreshLayout
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
     private static final String ARG_IMAGES = "images";
-    private static final String ARG_DIRECTION = "direction";
-    private static final String ARG_STATUS = "status";
+    private static final String ARG_DIRECTION = "directions";
 
-    private SwipeRefreshLayout swiperefresh;
-    private Handler handler = new Handler();
+    private static SwipeRefreshLayout swiperefresh;
+    private static Handler handler = new Handler();
 
     // TODO: Rename and change types of parameters
-    private JSONArray mImages;
-    private String mDirection;
-    private String mStatus;
-    private ListView listView1;
-    private ArrayList<ExpressLaneImage> expressLaneImageData;
-    private ExpressLaneImageAdapter adapter;
-    private OnFragmentInteractionListener mListener;
+    private static JSONArray mImages;
+    private static String mDirection;
+    private static String direction;
+    private static String status;
+    private static ListView listView1;
+    private static ArrayList<ExpressLaneImage> expressLaneImageData;
+    private static ExpressLaneImageAdapter adapter;
+    private static OnFragmentInteractionListener mListener;
+
+    public static final String NORTH = "north";
+    public static final String SOUTH = "south";
+    public static final String CLOSED = "closed";
 
     public DynamicSignsFragment() {
         // Required empty public constructor
@@ -62,15 +68,13 @@ public class DynamicSignsFragment extends Fragment implements SwipeRefreshLayout
      * this fragment using the provided parameters.
      *
      * @param images JSON Array of images.
-     * @param direction Direction of the flow of traffic on 95 express lanes
      * @return A new instance of fragment DynamicSignsFragment.
      */
-    public static DynamicSignsFragment newInstance(JSONArray images, String direction, String status) {
+    public static DynamicSignsFragment newInstance(JSONArray images, String direction) {
         DynamicSignsFragment fragment = new DynamicSignsFragment();
         Bundle args = new Bundle();
         args.putString(ARG_IMAGES, images.toString());
         args.putString(ARG_DIRECTION, direction);
-        args.putString(ARG_STATUS, status);
         fragment.setArguments(args);
         return fragment;
     }
@@ -81,27 +85,8 @@ public class DynamicSignsFragment extends Fragment implements SwipeRefreshLayout
         if (getArguments() != null) {
             try {
                 mImages = new JSONArray(getArguments().getString(ARG_IMAGES));
-                mDirection = getArguments().getString(ARG_DIRECTION);
-                mStatus = getArguments().getString(ARG_STATUS);
-                JSONObject eli;
-                String url, description, route, direction;
+                mDirection  = getArguments().getString(ARG_DIRECTION);
                 expressLaneImageData = new ArrayList<>();
-                for (int i = 0; i < mImages.length(); i++) {
-                    // get first object from JSON
-                    eli = mImages.getJSONObject(i);
-                    url = eli.getString("url");
-                    description = eli.getString("description");
-                    route = eli.getString("route");
-                    direction = eli.getString("direction");
-                    //always add images from 495, only add relevant signs from 95
-                    if (("495").equals(route)) {
-                        expressLaneImageData.add(new ExpressLaneImage(url, description, route, direction));
-                    } else if (("95").equals(route)) {
-                        if (direction.equals(mDirection)) {
-                            expressLaneImageData.add(new ExpressLaneImage(url, description, route, direction));
-                        }
-                    }
-                }
             } catch (JSONException e) {
                 e.printStackTrace();
             }
@@ -115,21 +100,32 @@ public class DynamicSignsFragment extends Fragment implements SwipeRefreshLayout
         return inflater.inflate(R.layout.fragment_dynamic_signs, container, false);
     }
 
-//    private final Runnable refreshing = new Runnable(){
-//        public void run(){
-//            try {
-//                swiperefresh.setRefreshing(false);
-//            }
-//            catch (Exception e) {
-//                e.printStackTrace();
-//            }
-//        }
-//    };
-
     public void onViewCreated(View v, Bundle savedInstanceState) {
+        try {
+            JSONObject eli;
+            String url, description, route, eliDirection;
+            for (int i = 0; i < mImages.length(); i++) {
+                // get first object from JSON
+                eli = mImages.getJSONObject(i);
+                url = eli.getString("url");
+                description = eli.getString("description");
+                route = eli.getString("route");
+                eliDirection = eli.getString("direction");
+                //always add images from 495, only add relevant signs from 95
+                if (("495").equals(route)) {
+                    expressLaneImageData.add(new ExpressLaneImage(url, description, route, mDirection));
+                } else if (("95").equals(route)) {
+                    if (eliDirection.equals(mDirection)) {
+                        expressLaneImageData.add(new ExpressLaneImage(url, description, route, mDirection));
+                    }
+                }
+            }
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
         // find the layout
         swiperefresh = (SwipeRefreshLayout) v.findViewById(R.id.swiperefresh);
-        // the refresh listner. this would be called when the layout is pulled down
+        // the refresh listener. this would be called when the layout is pulled down
         swiperefresh.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
 
             @Override
@@ -146,8 +142,14 @@ public class DynamicSignsFragment extends Fragment implements SwipeRefreshLayout
                 R.color.colorPrimaryDark, R.color.colorPrimary);
 
         TextView statusTextView = (TextView)v.findViewById(R.id.expressLanesStatus);
-        String status = "95 Express Lanes status: " + mStatus;
-        statusTextView.setText(status);
+        String openOrClosed = "";
+        if (SOUTH.equals(mDirection) || NORTH.equals(mDirection)){
+            openOrClosed = "Open going " + mDirection;
+        } else {
+            openOrClosed = "Closed.";
+        }
+        String statusCopy = "95 Express Lanes status: " + openOrClosed; //status;
+        statusTextView.setText(statusCopy);
         adapter = new ExpressLaneImageAdapter(getActivity(),
                 R.layout.listview_item_row, expressLaneImageData.toArray(new ExpressLaneImage[expressLaneImageData.size()]));
         listView1 = (ListView) v.findViewById(R.id.listView1);
