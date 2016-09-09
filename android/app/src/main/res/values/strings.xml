@@ -3,6 +3,7 @@
     <string name="action_settings">Settings</string>
     <string name="action_refresh">Refresh</string>
     <string name="action_clear">Clear</string>
+    <string name="banner_ad_unit_id">ca-app-pub-7550332846806881/9374090510</string>
     <string name="list_header">Dynamic Signs</string>
     <string name="json_images">image_schema.json</string>
     <string name="json_entry_exit">entry_exit.json</string>

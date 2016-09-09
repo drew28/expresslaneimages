@@ -23,6 +23,10 @@ import com.atreid.expresslanesimages.loaders.JSONLoader;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import com.google.android.gms.ads.AdRequest;
+import com.google.android.gms.ads.AdView;
+import com.google.android.gms.ads.MobileAds;
+
 public class NavigationActivity extends AppCompatActivity
         implements DynamicSignsFragment.OnFragmentInteractionListener,
         HistoricRatesFragment.OnFragmentInteractionListener,
@@ -38,6 +42,8 @@ public class NavigationActivity extends AppCompatActivity
      */
     private SectionsPagerAdapter mSectionsPagerAdapter;
 
+    private AdView mAdView;
+
     /**
      * The {@link ViewPager} that will host the section contents.
      */
@@ -48,6 +54,24 @@ public class NavigationActivity extends AppCompatActivity
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_navigation);
         new GETHOVDirectionFirst(this).execute();
+
+        // Initialize the Mobile Ads SDK.
+        MobileAds.initialize(this, "ca-app-pub-7550332846806881~6420624117");
+
+        // Gets the ad view defined in layout/ad_fragment.xml with ad unit ID set in
+        // values/strings.xml.
+        mAdView = (AdView) findViewById(R.id.ad_view);
+
+        // Create an ad request. Check your logcat output for the hashed device ID to
+        // get test ads on a physical device. e.g.
+        // "Use AdRequest.Builder.addTestDevice("ABCDEF012345") to get test ads on this device."
+        AdRequest adRequest = new AdRequest.Builder()
+                .addTestDevice(AdRequest.DEVICE_ID_EMULATOR)
+                .addTestDevice("A5E34E659E0D815706392732A74C2A01")
+                .build();
+
+        // Start loading the ad in the background.
+        mAdView.loadAd(adRequest);
     }
 
 
