@@ -157,11 +157,15 @@ public class TripCostFragment extends FormBaseFragment {
                     rateSummary = "$" + rate + " on " + road + direction + " " + duration + "m";
                     if ("495".equals(road)) {
                         cursor = rate495;
+                        cursor.setText(rateSummary);
                     } else {
-                        if (!direction.equals(mDirection)) {
+                        cursor = rate95;
+                        if (!(
+                                ("south".equals(mDirection) && "S".equals(direction)) ||
+                                ("north".equals(mDirection) && "N".equals(direction))
+                            )) {
                             rateSummary = "Closed";
                         }
-                        cursor = rate95;
                     }
                     cursor.setText(rateSummary);
                 }
