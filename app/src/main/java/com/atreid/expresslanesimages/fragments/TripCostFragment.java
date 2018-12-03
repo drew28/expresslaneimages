@@ -14,7 +14,6 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.TextView;
 
-import com.atreid.expresslanesimages.ExpressLanesStatusRetriever;
 import com.atreid.expresslanesimages.R;
 import com.atreid.expresslanesimages.loaders.HttpClient;
 import com.atreid.expresslanesimages.loaders.HttpResponse;

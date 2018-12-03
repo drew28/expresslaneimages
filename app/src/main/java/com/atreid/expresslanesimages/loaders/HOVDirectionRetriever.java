@@ -1,14 +1,6 @@
 package com.atreid.expresslanesimages.loaders;
 
 import android.os.AsyncTask;
-import android.util.Log;
-import android.widget.TextView;
-
-import com.atreid.expresslanesimages.ExpressLanesStatusRetriever;
-
-import org.json.JSONArray;
-import org.json.JSONException;
-import org.json.JSONObject;
 
 import java.io.IOException;
 
